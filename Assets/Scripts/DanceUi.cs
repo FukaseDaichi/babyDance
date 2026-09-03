@@ -150,6 +150,7 @@ namespace BabyDance
             dropdown.ClearOptions();
             dropdown.AddOptions(options);
             ApplyFont(go);
+            dropdown.itemText.color = new Color(0.1f, 0.1f, 0.1f);
             dropdown.onValueChanged.AddListener(onChanged);
             return dropdown;
         }
