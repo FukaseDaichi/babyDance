@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.Animations;
 using UnityEngine;
 
 namespace BabyDance.Editor
@@ -47,6 +48,59 @@ namespace BabyDance.Editor
                     throw new InvalidOperationException($"{Tag} {p} has no looping AnimationClip");
             }
             Debug.Log($"{Tag} BabyDance.Editor.AssetTools.ReimportCharacters done: {paths.Length} files");
+        }
+
+        public const string DanceFolder = "Assets/Dance";
+        public const string ControllerPath = DanceFolder + "/Dance.controller";
+        public const string LayerName = "Base Layer";
+
+        /// <summary>CLI: tools/unity.sh exec BabyDance.Editor.AssetTools.BuildDanceAssets</summary>
+        public static void BuildDanceAssets()
+        {
+            var dancePaths = DanceFbxPaths();
+            if (dancePaths.Length == 0)
+                throw new InvalidOperationException($"{Tag} no dance FBX found in {CharacterImportSettings.Folder}");
+
+            if (!AssetDatabase.IsValidFolder(DanceFolder))
+                AssetDatabase.CreateFolder("Assets", "Dance");
+
+            AssetDatabase.DeleteAsset(ControllerPath);
+            var controller = AnimatorController.CreateAnimatorControllerAtPath(ControllerPath);
+            var stateMachine = controller.layers[0].stateMachine;
+            var keep = new System.Collections.Generic.HashSet<string>();
+
+            foreach (var fbx in dancePaths)
+            {
+                var clip = MainClip(fbx) ?? throw new InvalidOperationException($"{Tag} no AnimationClip in {fbx}");
+                var state = stateMachine.AddState(clip.name);
+                state.motion = clip;
+
+                var infoPath = $"{DanceFolder}/{clip.name}.asset";
+                keep.Add(infoPath);
+                var info = AssetDatabase.LoadAssetAtPath<DanceClipInfo>(infoPath);
+                if (info == null)
+                {
+                    info = ScriptableObject.CreateInstance<DanceClipInfo>();
+                    AssetDatabase.CreateAsset(info, infoPath);
+                }
+                info.clip = clip;
+                info.stateName = $"{LayerName}.{clip.name}";
+                EditorUtility.SetDirty(info);
+                Debug.Log($"{Tag} dance {clip.name} length={clip.length:F2}s beatsPerLoop={info.beatsPerLoop} beatOffset={info.beatOffset}");
+            }
+
+            var stale = AssetDatabase.FindAssets("t:DanceClipInfo", new[] { DanceFolder })
+                .Select(AssetDatabase.GUIDToAssetPath)
+                .Where(p => !keep.Contains(p))
+                .ToArray();
+            foreach (var p in stale)
+            {
+                AssetDatabase.DeleteAsset(p);
+                Debug.Log($"{Tag} deleted stale {p}");
+            }
+
+            AssetDatabase.SaveAssets();
+            Debug.Log($"{Tag} BabyDance.Editor.AssetTools.BuildDanceAssets done: {stateMachine.states.Length} states");
         }
     }
 }
