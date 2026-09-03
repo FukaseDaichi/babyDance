@@ -64,9 +64,13 @@ namespace BabyDance.Editor
             if (!AssetDatabase.IsValidFolder(DanceFolder))
                 AssetDatabase.CreateFolder("Assets", "Dance");
 
-            AssetDatabase.DeleteAsset(ControllerPath);
-            var controller = AnimatorController.CreateAnimatorControllerAtPath(ControllerPath);
+            // 作り直すと GUID が変わり、GUID で controller を参照している Dance.unity が
+            // 無言で切れる。既存があれば読み直し、state だけ消して組み直す。
+            var controller = AssetDatabase.LoadAssetAtPath<AnimatorController>(ControllerPath)
+                             ?? AnimatorController.CreateAnimatorControllerAtPath(ControllerPath);
             var stateMachine = controller.layers[0].stateMachine;
+            foreach (var child in stateMachine.states)
+                stateMachine.RemoveState(child.state); // 配列の再代入では state がサブアセットとして残る
             var keep = new System.Collections.Generic.HashSet<string>();
 
             foreach (var fbx in dancePaths)
@@ -76,11 +80,13 @@ namespace BabyDance.Editor
                 state.motion = clip;
 
                 var infoPath = $"{DanceFolder}/{clip.name}.asset";
-                keep.Add(infoPath);
+                if (!keep.Add(infoPath)) throw new InvalidOperationException($"{Tag} duplicate clip name: {clip.name}");
                 var info = AssetDatabase.LoadAssetAtPath<DanceClipInfo>(infoPath);
                 if (info == null)
                 {
                     info = ScriptableObject.CreateInstance<DanceClipInfo>();
+                    // 新規作成時のみ 120 BPM で等速になる拍数を初期値にする。既存は人手調整値を保つ。
+                    info.beatsPerLoop = Mathf.Max(1, Mathf.RoundToInt(clip.length * 2f));
                     AssetDatabase.CreateAsset(info, infoPath);
                 }
                 info.clip = clip;

@@ -34,11 +34,12 @@ namespace BabyDance
             if (!_animator.HasState(Layer, Animator.StringToHash(next.stateName)))
                 throw new InvalidOperationException($"Animator has no state '{next.stateName}'");
 
-            var offsetSeconds = NormalizedTime(next, currentBeat) * next.clip.length;
+            // Play の第3引数は正規化時間、CrossFadeInFixedTime の第4引数は秒。
+            var phase = NormalizedTime(next, currentBeat);
             if (_current == null)
-                _animator.Play(next.stateName, Layer, offsetSeconds / next.clip.length);
+                _animator.Play(next.stateName, Layer, phase);
             else
-                _animator.CrossFadeInFixedTime(next.stateName, (float)SecondsPerBeat(next), Layer, offsetSeconds);
+                _animator.CrossFadeInFixedTime(next.stateName, (float)SecondsPerBeat(next), Layer, phase * next.clip.length);
 
             _current = next;
             CurrentIndex = index;

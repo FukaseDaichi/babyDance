@@ -8,7 +8,7 @@ namespace BabyDance
     {
         public AudioLoader audio;
         public DanceDriver driver;
-        public float initialBpm = 120f;
+        [Range(60f, 200f)] public float initialBpm = 120f;
 
         private BeatClock _clock;
 

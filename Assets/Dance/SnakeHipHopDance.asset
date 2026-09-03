@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: BabyDance::BabyDance.DanceClipInfo
   clip: {fileID: -203655887218126122, guid: 0a9929601ef5248aeaaf10b13075e6cc, type: 3}
   stateName: Base Layer.SnakeHipHopDance
-  beatsPerLoop: 8
+  beatsPerLoop: 31
   beatOffset: 0

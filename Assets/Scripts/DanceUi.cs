@@ -25,6 +25,7 @@ namespace BabyDance
         private void Start()
         {
             _font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            if (_font == null) Debug.LogError("[BabyDance] LegacyRuntime.ttf did not resolve");
             BuildEventSystem();
             var panel = BuildCanvasAndPanel();
 

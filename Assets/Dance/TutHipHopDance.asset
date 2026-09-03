@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: BabyDance::BabyDance.DanceClipInfo
   clip: {fileID: -203655887218126122, guid: 9d329a68542a04c8f982a6deebef12c7, type: 3}
   stateName: Base Layer.TutHipHopDance
-  beatsPerLoop: 8
+  beatsPerLoop: 34
   beatOffset: 0
