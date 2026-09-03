@@ -45,3 +45,6 @@ crashlytics-build.properties
 # macOS
 .DS_Store
 *.slnx
+
+# Superpowers SDD ワークスペース（スクラッチ）
+/.superpowers/
