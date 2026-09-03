@@ -1,0 +1,18 @@
+{
+    "name": "BabyDance",
+    "rootNamespace": "BabyDance",
+    "references": [
+        "UnityEngine.UI",
+        "Unity.InputSystem",
+        "StandaloneFileBrowser"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
