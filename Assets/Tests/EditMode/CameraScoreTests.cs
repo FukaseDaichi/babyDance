@@ -40,11 +40,11 @@ namespace BabyDance.Tests
         [Test]
         public void EaseReachesTargetThenCutsToNextCue()
         {
-            // イントロの寄り: 拍 4〜8 で距離 3.4 → 2.6。拍 8 で A の距離 1.9 にカット
-            Assert.That(CameraScore.PoseAt(4.0).Distance, Is.EqualTo(3.4).Within(Eps));
-            Assert.That(CameraScore.PoseAt(6.0).Distance, Is.EqualTo(3.0).Within(Eps), "SmoothStep の中点は線形の中点と一致する");
-            Assert.That(CameraScore.PoseAt(7.999).Distance, Is.EqualTo(2.6).Within(1e-3));
-            Assert.That(CameraScore.PoseAt(8.0).Distance, Is.EqualTo(1.9).Within(Eps));
+            // イントロの寄り: 拍 4〜8 で距離 4.2 → 3.2。拍 8 で A の距離 2.4 にカット
+            Assert.That(CameraScore.PoseAt(4.0).Distance, Is.EqualTo(4.2).Within(Eps));
+            Assert.That(CameraScore.PoseAt(6.0).Distance, Is.EqualTo(3.7).Within(Eps), "SmoothStep の中点は線形の中点と一致する");
+            Assert.That(CameraScore.PoseAt(7.999).Distance, Is.EqualTo(3.2).Within(1e-3));
+            Assert.That(CameraScore.PoseAt(8.0).Distance, Is.EqualTo(2.4).Within(Eps));
         }
 
         [Test]
@@ -87,7 +87,7 @@ namespace BabyDance.Tests
             Assert.That(y.Pitch, Is.EqualTo(x.Pitch));
             Assert.That(y.Roll, Is.EqualTo(x.Roll));
 
-            Assert.That(CameraScore.PoseAt(-2.0).Distance, Is.EqualTo(3.4).Within(Eps), "助走中はイントロの引き画");
+            Assert.That(CameraScore.PoseAt(-2.0).Distance, Is.EqualTo(4.2).Within(Eps), "助走中はイントロの引き画");
         }
 
         [Test]
@@ -105,12 +105,12 @@ namespace BabyDance.Tests
         [Test]
         public void ImpactInsertLastsEighthBeatOnBarHeads()
         {
-            Assert.That(CameraScore.PoseAt(96.05).Distance, Is.EqualTo(1.2).Within(Eps));
+            Assert.That(CameraScore.PoseAt(96.05).Distance, Is.EqualTo(1.4).Within(Eps));
             Assert.That(CameraScore.PoseAt(96.05).Target, Is.EqualTo(CameraTarget.Head));
-            Assert.That(CameraScore.PoseAt(96.2).Distance, Is.EqualTo(2.0).Within(Eps));
-            Assert.That(CameraScore.PoseAt(100.05).Distance, Is.EqualTo(1.2).Within(Eps));
-            Assert.That(CameraScore.PoseAt(98.05).Distance, Is.EqualTo(2.0).Within(Eps), "バーの 3 拍目には入らない");
-            Assert.That(CameraScore.PoseAt(84.05).Distance, Is.EqualTo(2.2).Within(Eps), "衝撃カット無しのキュー");
+            Assert.That(CameraScore.PoseAt(96.2).Distance, Is.EqualTo(2.6).Within(Eps));
+            Assert.That(CameraScore.PoseAt(100.05).Distance, Is.EqualTo(1.4).Within(Eps));
+            Assert.That(CameraScore.PoseAt(98.05).Distance, Is.EqualTo(2.6).Within(Eps), "バーの 3 拍目には入らない");
+            Assert.That(CameraScore.PoseAt(84.05).Distance, Is.EqualTo(2.8).Within(Eps), "衝撃カット無しのキュー");
         }
 
         [Test]

@@ -13,7 +13,7 @@ namespace BabyDance
         public const double IntroEnd = 8.0;
         public const double CycleBeats = 128.0;
 
-        public static readonly CameraPose FixedPose = new CameraPose(3.4, 0, 8, 30, CameraTarget.Hips);
+        public static readonly CameraPose FixedPose = new CameraPose(4.2, 0, 8, 30, CameraTarget.Hips);
 
         private enum Ease { Cut, Smooth, Linear }
 
@@ -56,32 +56,32 @@ namespace BabyDance
         private static readonly Cue[] Cues =
         {
             // イントロ（初回のみ）: 引きフィックス → だんだん寄り
-            Hold(double.NegativeInfinity, 4, P(3.4, 0, 8, 30, CameraTarget.Hips)),
-            Move(4, 8, P(3.4, 0, 8, 30, CameraTarget.Hips), P(2.6, 0, 8, 30, CameraTarget.Hips), 4, Ease.Smooth),
+            Hold(double.NegativeInfinity, 4, P(4.2, 0, 8, 30, CameraTarget.Hips)),
+            Move(4, 8, P(4.2, 0, 8, 30, CameraTarget.Hips), P(3.2, 0, 8, 30, CameraTarget.Hips), 4, Ease.Smooth),
             // A: 8 拍カット割り、最後の 2 拍だけ顔クローズアップ
-            Hold(8, 16, P(1.9, 35, 4, 24, CameraTarget.Head)),
-            Hold(16, 24, P(2.1, -140, 10, 26, CameraTarget.Hips)),
-            Hold(24, 30, P(2.4, 0, 6, 26, CameraTarget.Hips)),
+            Hold(8, 16, P(2.4, 35, 4, 24, CameraTarget.Head)),
+            Hold(16, 24, P(2.8, -140, 10, 26, CameraTarget.Hips)),
+            Hold(24, 30, P(3.0, 0, 6, 26, CameraTarget.Hips)),
             Hold(30, 32, P(1.6, 0, 0, 10, CameraTarget.Head)),
-            Hold(32, 40, P(2.6, -20, 6, 28, CameraTarget.Hips)),
+            Hold(32, 40, P(3.2, -20, 6, 28, CameraTarget.Hips)),
             // B: オービット → 停止 → サビ前のタメ
-            Move(40, 56, P(2.8, -60, 5, 26, CameraTarget.Hips, 0, 0.3), P(2.8, 60, 5, 26, CameraTarget.Hips, 0, 0.3), 16, Ease.Linear),
-            Hold(56, 64, P(2.8, 60, 5, 26, CameraTarget.Hips, 0, 0.3)),
-            Hold(64, 72, P(3.0, 0, 8, 28, CameraTarget.Hips)),
+            Move(40, 56, P(3.4, -60, 5, 26, CameraTarget.Hips, 0, 0.3), P(3.4, 60, 5, 26, CameraTarget.Hips, 0, 0.3), 16, Ease.Linear),
+            Hold(56, 64, P(3.4, 60, 5, 26, CameraTarget.Hips, 0, 0.3)),
+            Hold(64, 72, P(3.6, 0, 8, 28, CameraTarget.Hips)),
             // サビ: 足元 → アオリ広角から顔へ急接近して静止 → パンチイン → 衝撃カット
-            Hold(72, 74, P(1.8, 0, -20, 18, CameraTarget.Feet, 0, 0.2)),
-            Move(74, 80, P(3.2, 0, -20, 55, CameraTarget.Head), P(1.5, 0, -8, 14, CameraTarget.Head), 0.5, Ease.Smooth),
-            Hold(80, 96, P(2.2, 15, 4, 24, CameraTarget.Hips, 0, 0.4), punch: true),
-            Hold(96, 104, P(2.0, -45, 2, 22, CameraTarget.Head, 0, 0.4), punch: true, impact: true),
+            Hold(72, 74, P(2.0, 0, -20, 18, CameraTarget.Feet, 0, 0.2)),
+            Move(74, 80, P(3.6, 0, -20, 55, CameraTarget.Head), P(1.8, 0, -8, 14, CameraTarget.Head), 0.5, Ease.Smooth),
+            Hold(80, 96, P(2.8, 15, 4, 24, CameraTarget.Hips, 0, 0.4), punch: true),
+            Hold(96, 104, P(2.6, -45, 2, 22, CameraTarget.Head, 0, 0.4), punch: true, impact: true),
             // アウトロ: アオリ気味のバストアップからゆっくり引いて完全停止
-            Move(104, 120, P(1.8, 25, -12, 26, CameraTarget.Hips, 4, 0), P(3.4, 25, -12, 30, CameraTarget.Hips, 0, 0), 16, Ease.Smooth),
-            Hold(120, 136, P(3.4, 25, -12, 30, CameraTarget.Hips)),
+            Move(104, 120, P(2.4, 25, -12, 26, CameraTarget.Hips, 4, 0), P(4.2, 25, -12, 30, CameraTarget.Hips, 0, 0), 16, Ease.Smooth),
+            Hold(120, 136, P(4.2, 25, -12, 30, CameraTarget.Hips)),
         };
 
         private const double PunchFov = 1.5;
         private const double PunchHalfLifeBeats = 0.15;
         private const double ImpactBeats = 0.125;
-        private const double ImpactDistance = 1.2;
+        private const double ImpactDistance = 1.4;
         private const double ImpactFov = 12.0;
         private const double ShakeAngle = 0.6;
         private const double ShakeRoll = 0.4;
