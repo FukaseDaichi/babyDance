@@ -21,6 +21,7 @@ namespace BabyDance
         private Text _message;
         private Slider _bpmSlider;
         private Dropdown _danceDropdown;
+        private Text _cameraLabel;
 
         private void Start()
         {
@@ -39,6 +40,7 @@ namespace BabyDance
             var names = new List<string>();
             for (var i = 0; i < player.DanceCount; i++) names.Add(player.DanceName(i));
             _danceDropdown = AddDropdown(panel, names, player.SelectDance);
+            _cameraLabel = AddButton(panel, "", player.ToggleCamera).GetComponentInChildren<Text>();
 
             _message = AddText(panel, "Open a music file to start");
 
@@ -54,6 +56,7 @@ namespace BabyDance
             _bpmLabel.text = $"BPM {player.Bpm:0}";
             _bpmSlider.SetValueWithoutNotify((float)player.Bpm);
             _danceDropdown.SetValueWithoutNotify(player.CurrentDance);
+            _cameraLabel.text = player.CameraAuto ? "Camera: Auto" : "Camera: Fixed";
         }
 
         private static void BuildEventSystem()

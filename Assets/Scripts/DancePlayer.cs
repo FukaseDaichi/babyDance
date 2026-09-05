@@ -8,6 +8,7 @@ namespace BabyDance
     {
         public AudioLoader audio;
         public DanceDriver driver;
+        public ShotDirector director;
         [Range(60f, 200f)] public float initialBpm = 120f;
 
         private BeatClock _clock;
@@ -18,6 +19,7 @@ namespace BabyDance
         public double Bpm => _clock.Bpm;
         public bool IsPlaying => _clock.IsRunning;
         public bool HasClip => audio.HasClip;
+        public bool CameraAuto => !director.Fixed;
         public int DanceCount => driver.dances.Length;
         public string DanceName(int index) => driver.dances[index].clip.name;
 
@@ -38,13 +40,20 @@ namespace BabyDance
 
         private void Update()
         {
-            if (!_clock.IsRunning) return;
+            if (!_clock.IsRunning)
+            {
+                director.Tick(0.0);
+                return;
+            }
             if (!audio.IsPlaying)
             {
                 StopPlayback();
                 return;
             }
-            driver.Tick(_clock.BeatAt(AudioSettings.dspTime));
+            // Animator を進めた後にカメラがボーンを読む順序。
+            var beat = _clock.BeatAt(AudioSettings.dspTime);
+            driver.Tick(beat);
+            director.Tick(beat);
         }
 
         public void Open() => audio.OpenFile();
@@ -65,6 +74,12 @@ namespace BabyDance
         {
             CurrentDance = index;
             driver.SetDance(index, _clock.BeatAt(AudioSettings.dspTime));
+            Changed?.Invoke();
+        }
+
+        public void ToggleCamera()
+        {
+            director.Fixed = !director.Fixed;
             Changed?.Invoke();
         }
 

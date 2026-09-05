@@ -49,10 +49,14 @@ namespace BabyDance.Editor
             var driver = character.AddComponent<DanceDriver>();
             driver.dances = dances;
 
+            var director = cameraGo.AddComponent<ShotDirector>();
+            director.dancer = character.GetComponent<Animator>();
+
             var playerGo = new GameObject("Player", typeof(AudioSource), typeof(AudioLoader), typeof(DancePlayer), typeof(DanceUi));
             var player = playerGo.GetComponent<DancePlayer>();
             player.audio = playerGo.GetComponent<AudioLoader>();
             player.driver = driver;
+            player.director = director;
             playerGo.GetComponent<DanceUi>().player = player;
 
             if (!EditorSceneManager.SaveScene(scene, ScenePath))
