@@ -89,5 +89,58 @@ namespace BabyDance.Tests
 
             Assert.That(CameraScore.PoseAt(-2.0).Distance, Is.EqualTo(3.4).Within(Eps), "助走中はイントロの引き画");
         }
+
+        [Test]
+        public void PunchInFiresEveryBeatOnlyInChorus()
+        {
+            var onBeat = CameraScore.PoseAt(84.0).Fov;
+            var offBeat = CameraScore.PoseAt(84.5).Fov;
+            var nextBeat = CameraScore.PoseAt(85.0).Fov;
+            Assert.That(onBeat, Is.EqualTo(24.0 - 1.5).Within(Eps));
+            Assert.That(offBeat, Is.GreaterThan(onBeat));
+            Assert.That(nextBeat, Is.EqualTo(onBeat).Within(Eps), "1 拍周期");
+            Assert.That(CameraScore.PoseAt(44.0).Fov, Is.EqualTo(26.0).Within(Eps), "オービット中はパンチイン無し");
+        }
+
+        [Test]
+        public void ImpactInsertLastsEighthBeatOnBarHeads()
+        {
+            Assert.That(CameraScore.PoseAt(96.05).Distance, Is.EqualTo(1.2).Within(Eps));
+            Assert.That(CameraScore.PoseAt(96.05).Target, Is.EqualTo(CameraTarget.Head));
+            Assert.That(CameraScore.PoseAt(96.2).Distance, Is.EqualTo(2.0).Within(Eps));
+            Assert.That(CameraScore.PoseAt(100.05).Distance, Is.EqualTo(1.2).Within(Eps));
+            Assert.That(CameraScore.PoseAt(98.05).Distance, Is.EqualTo(2.0).Within(Eps), "バーの 3 拍目には入らない");
+            Assert.That(CameraScore.PoseAt(84.05).Distance, Is.EqualTo(2.2).Within(Eps), "衝撃カット無しのキュー");
+        }
+
+        [Test]
+        public void ShakeIsDeterministicAndBounded()
+        {
+            var still = CameraScore.PoseAt(20.0);
+            Assert.That(still.Yaw, Is.EqualTo(-140.0), "Shake 0 のキューはノイズ項が無い");
+            Assert.That(still.Roll, Is.EqualTo(0.0));
+
+            var moved = false;
+            for (var b = 56.0; b < 64.0; b += 1.0 / 16)
+            {
+                var p = CameraScore.PoseAt(b);
+                Assert.That(Math.Abs(p.Yaw - 60.0), Is.LessThanOrEqualTo(0.6 * 0.3 + Eps), $"beat {b}");
+                Assert.That(Math.Abs(p.Roll), Is.LessThanOrEqualTo(0.4 * 0.3 + Eps), $"beat {b}");
+                if (p.Yaw != 60.0) moved = true;
+            }
+            Assert.That(moved, "Shake 0.3 のキューではヨーが揺れる");
+        }
+
+        [Test]
+        public void AllPosesRespectLimits()
+        {
+            for (var b = -4.0; b <= 140.0; b += 1.0 / 16)
+            {
+                var p = CameraScore.PoseAt(b);
+                Assert.That(p.Pitch, Is.GreaterThanOrEqualTo(CameraScore.MinPitch), $"beat {b}");
+                Assert.That(p.Distance, Is.GreaterThanOrEqualTo(CameraScore.MinDistance), $"beat {b}");
+                Assert.That(p.Fov, Is.InRange(CameraScore.MinFov, CameraScore.MaxFov), $"beat {b}");
+            }
+        }
     }
 }

@@ -78,13 +78,46 @@ namespace BabyDance
             Hold(120, 136, P(3.4, 25, -12, 30, CameraTarget.Hips)),
         };
 
+        private const double PunchFov = 1.5;
+        private const double PunchHalfLifeBeats = 0.15;
+        private const double ImpactBeats = 0.125;
+        private const double ImpactDistance = 1.2;
+        private const double ImpactFov = 12.0;
+        private const double ShakeAngle = 0.6;
+        private const double ShakeRoll = 0.4;
+        private const double ShakeRate = 3.1;
+
+        /// <summary>合成順: キュー評価 → 衝撃カット → パンチイン → 手ブレ → Clamp。</summary>
         public static CameraPose PoseAt(double beat)
         {
             var b = beat < IntroEnd ? beat : IntroEnd + Mod(beat - IntroEnd, CycleBeats);
             var cue = Find(b);
             var pose = cue.Evaluate(b);
+
+            if (cue.Impact && Mod(b, 4.0) < ImpactBeats)
+            {
+                pose.Distance = ImpactDistance;
+                pose.Fov = ImpactFov;
+                pose.Target = CameraTarget.Head;
+            }
+
+            if (cue.Punch)
+                pose.Fov -= PunchFov * Math.Pow(0.5, Mod(b, 1.0) / PunchHalfLifeBeats);
+
+            if (pose.Shake > 0.0)
+            {
+                var x = b * ShakeRate;
+                pose.Yaw += Noise(x) * ShakeAngle * pose.Shake;
+                pose.Pitch += Noise(x + 100.0) * ShakeAngle * pose.Shake;
+                pose.Roll += Noise(x + 200.0) * ShakeRoll * pose.Shake;
+            }
+
             return Clamp(pose);
         }
+
+        /// <summary>[-1, 1] に収まる滑らかな決定的ノイズ。乱数も Unity も使わない。</summary>
+        private static double Noise(double x)
+            => 0.5 * Math.Sin(2.0 * x) + 0.35 * Math.Sin(5.3 * x + 1.7) + 0.15 * Math.Sin(11.1 * x + 4.2);
 
         public static CameraPose Clamp(CameraPose p)
         {
