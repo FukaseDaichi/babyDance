@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "webgl-build",
+      "runtimeExecutable": "uv",
+      "runtimeArgs": ["run", "--directory", "Builds/WebGL", "--with", "rangehttpserver", "python", "-m", "RangeHTTPServer", "8765"],
+      "port": 8765
+    }
+  ]
+}
