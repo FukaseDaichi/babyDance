@@ -86,13 +86,8 @@ namespace BabyDance
 
         private void Apply(CameraPose pose, Vector3 target)
         {
-            var yaw = (float)(pose.Yaw * Math.PI / 180.0);
-            var pitch = (float)(pose.Pitch * Math.PI / 180.0);
-            var dir = new Vector3(
-                Mathf.Sin(yaw) * Mathf.Cos(pitch),
-                Mathf.Sin(pitch),
-                Mathf.Cos(yaw) * Mathf.Cos(pitch));
-            var position = target + dir * (float)pose.Distance;
+            var offset = CameraScore.Offset(pose, target.y);
+            var position = target + new Vector3((float)offset.X, (float)offset.Y, (float)offset.Z);
             transform.SetPositionAndRotation(
                 position,
                 Quaternion.LookRotation(target - position) * Quaternion.Euler(0f, 0f, (float)pose.Roll));

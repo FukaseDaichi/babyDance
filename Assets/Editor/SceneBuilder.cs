@@ -28,8 +28,10 @@ namespace BabyDance.Editor
 
             var cameraGo = new GameObject("Main Camera", typeof(Camera), typeof(AudioListener));
             cameraGo.tag = "MainCamera";
-            cameraGo.transform.position = new Vector3(0f, 1.3f, 3.2f);
-            cameraGo.transform.LookAt(new Vector3(0f, 0.9f, 0f));
+            // 実行中は ShotDirector が毎フレーム上書きする。ここはイントロの引き画を
+            // 保存シーンの初期姿勢として置くだけ（腰 y≈0.21 m を 1.0 m のフレーム高で見る）。
+            cameraGo.transform.position = new Vector3(0f, 0.47f, 1.85f);
+            cameraGo.transform.LookAt(new Vector3(0f, 0.21f, 0f));
             var camera = cameraGo.GetComponent<Camera>();
             camera.clearFlags = CameraClearFlags.SolidColor;
             camera.backgroundColor = new Color(0.15f, 0.16f, 0.2f);

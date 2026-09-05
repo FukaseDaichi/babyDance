@@ -10,7 +10,7 @@ namespace BabyDance.Editor
 {
     public static class AssetTools
     {
-        public const string CharacterFbx = CharacterImportSettings.Folder + "XBot.fbx";
+        public const string CharacterFbx = CharacterImportSettings.Folder + "BabyBunny.fbx";
 
         public static string[] CharacterFbxPaths() =>
             Directory.GetFiles(CharacterImportSettings.Folder, "*.fbx")

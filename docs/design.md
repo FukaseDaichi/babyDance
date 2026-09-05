@@ -1,9 +1,6 @@
-| `CameraPose` | カメラ姿勢の純データ（球面座標 + FOV + ロール + 注視点種別） |
-| `CameraScore` | 拍 → カメラ姿勢の純関数。譜面はコード内の配列。Unity 非依存 |
-| `ShotDirector` | `CameraScore` の姿勢を Main Camera に適用し、Humanoid ボーンを注視点にする |
 # babyDance 設計
 
-ユーザーが選んだ音楽ファイルを再生し、入力した BPM に合わせて Mixamo の X Bot が踊る Unity アプリ。
+ユーザーが選んだ音楽ファイルを再生し、入力した BPM に合わせて赤ちゃんウサギのキャラクターが踊る Unity アプリ。
 
 Unity 6000.5.10f1 / URP。入力は Input System のみ。UI は uGUI。ファイル選択はブラウザの `<input type="file">`（自前の jslib）。配布形態は WebGL で、GitHub Pages に置く。
 
@@ -27,7 +24,11 @@ Unity 6000.5.10f1 / URP。入力は Input System のみ。UI は uGUI。ファ�
 
 移動はすべて「イージングで一気に動いて着地で止める」。移動拍数を過ぎたキューは終端姿勢で完全静止し、次のカットまで動かない。サビ相当の 32 拍では拍頭ごとに FOV を 1.5 縮めて指数的に戻すパンチイン、バーの 1 拍目には 1/8 拍だけ超アップを挟む衝撃カットを重ねる。手ブレは正弦波の和による決定的ノイズで、乱数は使わない。
 
-注視点は Humanoid ボーン（Hips / Head / 両足の中点）の実座標を毎フレーム読み、拍単位の指数平滑（時定数 0.25 拍）で追う。注視点の種別が変わるカットでは平滑をリセットして跳ねを防ぐ。ピッチは −20° 以上、距離は 1.0 以上、FOV は 10〜55 に clamp する。
+**ショットは距離ではなく「画面に収める高さ」で書く。** 譜面のキューが持つのは距離ではなくフレーム高 [m] で、距離は `d = h / (2 tan(fov/2))` で逆算する。距離を直接書くとキャラの体格が変わるたびに全キューを引き直すことになり、値が何を意図していたのかも失われる。フレーム高は全高 0.80 m・頭（耳込み）0.37 m のキャラに合わせた語彙として定数化してある（全身 0.80 / 引きの全身 1.00 / 膝上 0.70 / 腰上 0.60 / ミディアム 0.55 / バスト 0.50 / 顔 0.32 / 足元 0.28）。キャラの体格が変わったとき、身長比で距離を一律にスケールするのは誤りである。チビ体型は頭が全高の 31%（人型は 13%）を占め、全身ショットと顔ショットで必要な倍率が違う。
+
+注視点は Humanoid ボーン（Hips / Head / 両足の中点）の実座標を毎フレーム読み、拍単位の指数平滑（時定数 0.25 拍）で追う。注視点の種別が変わるカットでは平滑をリセットして跳ねを防ぐ。ピッチは −20° 以上、距離は 0.45 以上、FOV は 10〜55 に clamp する。
+
+**カメラは床下に潜らない。** アオリのキューは注視点が低いとカメラが地面を突き抜けるため、`CameraScore.Offset` が床からの下限 0.03 m を満たす最小のピッチまで持ち上げる。距離は変えないので、テストで保証したフレーム高は補正後も保たれる。注視点の高さは実行時にしか分からないので、この補正は引数で高さを受け取る純関数として `CameraScore` 側に置く。`ShotDirector` に書くと EditMode から呼べず、補正の呼び出しを外す変更を検出できない。足が床に接している以上、足元のアオリは水平近くになる。これは幾何的な帰結である。
 
 Cinemachine は採用しない。キャラは原点に固定されており Follow の価値がなく、Cinemachine のブレンドは `Time.deltaTime` 駆動で時間源を増やすため。
 
@@ -46,6 +47,9 @@ UI の「Camera: Auto / Fixed」で譜面を止めて引きの固定画に戻せ
 | `AudioFileType` | 拡張子から `AudioType` を決める。`AudioLoader` から分離してある唯一の理由は、ここだけが単体テスト可能だから |
 | `DancePlayer` | 上記を配線し、毎フレーム dspTime から拍を進める |
 | `DanceUi` | 実行時に uGUI を組み立てる。開く / 再生・停止 / BPM スライダー（60〜200）/ ダンス切替 / カメラ Auto・Fixed の 5 コントロールと、1 行のメッセージ表示 |
+| `CameraPose` | カメラ姿勢の純データ（球面座標 + FOV + ロール + 注視点種別） |
+| `CameraScore` | 拍 → カメラ姿勢の純関数。譜面はコード内の配列。Unity 非依存 |
+| `ShotDirector` | `CameraScore` の姿勢を Main Camera に適用し、Humanoid ボーンを注視点にする |
 
 Editor（`Assets/Editor/`、アセンブリ `BabyDance.Editor`）: `BabyDance` と URP Runtime を参照する。逆向きの参照はない。
 
@@ -59,7 +63,7 @@ Editor（`Assets/Editor/`、アセンブリ `BabyDance.Editor`）: `BabyDance` �
 
 FBX の設定・AnimatorController・シーン・ビルドはすべて Editor スクリプトが生成する。GUI 操作は Mixamo から FBX を `Assets/Characters/` に置くところまでで、それ以降に人手は要らない。
 
-`Assets/Characters/` 配下の FBX は `AssetPostprocessor` が自動的に Humanoid にし、クリップ名をファイル名に統一し、ループを有効にし、ルートの回転・Y・XZ を Bake Into Pose にする。`XBot.fbx` がキャラ本体で、それ以外がダンスである。ダンス FBX は「Without Skin」で落としたものでも有効な Humanoid Avatar を生成するので、Humanoid リターゲットの供給側になれる。
+`Assets/Characters/` 配下の FBX は `AssetPostprocessor` が自動的に Humanoid にし、クリップ名をファイル名に統一し、ループを有効にし、ルートの回転・Y・XZ を Bake Into Pose にする。`AssetTools.CharacterFbx`（`BabyBunny.fbx`）がキャラ本体で、それ以外がダンスである。キャラを 2 体置くと、もう一方の T ポーズクリップがダンスとして登録される。ダンス FBX は「Without Skin」で落としたものでも有効な Humanoid Avatar を生成するので、Humanoid リターゲットの供給側になれる。
 
 `DanceDriver` は Bake Into Pose に加えて `applyRootMotion = false` も設定する。二重の防御であり、キャラの Transform がアニメーションから書かれることはない。原地から流れていくことは構造的に起こらない。
 
@@ -68,6 +72,20 @@ FBX の設定・AnimatorController・シーン・ビルドはすべて Editor �
 State も名前で引き当てて再利用する。消して足し直すと State に新しい fileID が振られ、生成のたびに内容の変わらない差分だけが出る。同じダンス構成で 2 回生成すれば `Dance.controller` に差分は出ない。
 
 `DanceClipInfo` を再生成しても調律定数は保持され、クリップと State 名だけが更新される。対応する FBX が無くなった `.asset` は削除される。クリップ名が衝突するダンスがあれば例外で止まる。
+
+## キャラクターアセット
+
+キャラ本体は Meshy が生成したメッシュに Mixamo のオートリガーでリグを付けたもの。`Assets/Characters/BabyBunny.fbx` が実体で、テクスチャは Meshy の出力（`Assets/Meshy_AI_*_texture_fbx/`）をそのまま使う。
+
+**Mixamo に渡す FBX はメッシュのみにする。** Meshy の FBX はファイルサイズのほぼ全部（8.6 MB のうち 8.1 MB）が Video ノードに埋め込まれた 2K / 4K テクスチャで、この状態では Mixamo の解析が失敗する。失敗は `Sorry, unable to map your existing skeleton.` として表示されるが、ボーンが 1 本も無いファイルでも同じメッセージが出る。既存骨のマッピング失敗ではなく解析失敗のメッセージだと読む。マテリアルとテクスチャ参照を外し、三角化した単一メッシュの FBX にすると通る。テクスチャはリグ付けに使われないので、zip でまとめて渡す意味も無い。
+
+**頂点座標を移動して足元を原点に合わせる。** Mixamo はモデルの原点をグリッドの原点に置くため、ピボットが体の中心にある Meshy のメッシュはそのままだと身長の半分が床下に沈み、沈んだ位置のままリグが生成される。エクスポート前に足元 Y = 0、左右・前後の中心を原点に合わせる（オブジェクトの位置ではなく頂点座標を動かす）。
+
+**Unity 側でスケールとマテリアルを与える。** 実寸は全高 0.80 m（耳を含む）で、FBX は 1.898 m なので `ModelImporter.globalScale = 0.421515` を `.meta` に持たせる。Mixamo が返す FBX にはマテリアルが 1 つも無く、その状態では差し替え先の識別子が存在せず Unity 既定の `Lit` が当たったままになるため、名前付きの空マテリアルスロットを 1 つ持たせた上で外部マテリアル remap により `BabyBunny.mat`（URP Lit）を当てる。
+
+マテリアルのテクスチャは `_BaseMap` / `_BumpMap`（NormalMap 型でインポート）/ `_MetallicGlossMap`。Meshy は metallic と roughness を別々の 4K グレースケールで出すが、URP Lit は R = metallic・A = smoothness の合成マップを要求するので、`BabyBunny_MetallicSmoothness.png`（2K・リニア）を生成して使う。metallic は実質ゼロ（平均 0.38/255）で、意味のある変化を持つのは roughness だけである。
+
+**新しいキャラを入れたら、既存キャラと同じダンスで数値を比較する。** リターゲットの破綻は絶対値では判定できない。全 `HumanBodyBones` の最小 Y をサンプルして基準キャラ（`Assets/Reference/XBot.fbx`）と並べ、同程度であることを確かめる。踊らせたときに足が地面を割る量は、正しく動いているキャラでも 0 にはならない。
 
 ## 調律定数
 
