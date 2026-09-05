@@ -2,7 +2,7 @@
 
 ユーザーが選んだ音楽ファイルを再生し、入力した BPM に合わせて Mixamo の X Bot が踊る Unity アプリ。
 
-Unity 6000.5.10f1 / URP。入力は Input System のみ。UI は uGUI。ファイル選択は StandaloneFileBrowser（OpenUPM）。配布形態は Mac の実行ファイル。
+Unity 6000.5.10f1 / URP。入力は Input System のみ。UI は uGUI。ファイル選択はブラウザの `<input type="file">`（自前の jslib）。配布形態は WebGL で、GitHub Pages に置く。
 
 ## 同期方式
 
@@ -27,7 +27,7 @@ Unity 6000.5.10f1 / URP。入力は Input System のみ。UI は uGUI。ファ�
 | `BeatClock` | dspTime を実数の拍位置に変換する。Unity 非依存の純粋 C# |
 | `DanceDriver` | 無効化した Animator を拍差分で手動ティックする。時間を自分では読まず、拍位置を引数で受け取る |
 | `DanceClipInfo` | ダンス 1 本のメタデータ（ScriptableObject）。クリップ、State 名、調律定数 |
-| `AudioLoader` | ファイル選択・デコード・DSP スケジュール再生 |
+| `AudioLoader` | ブラウザのファイル選択（jslib 経由）・blob URL からのデコード・DSP スケジュール再生 |
 | `AudioFileType` | 拡張子から `AudioType` を決める。`AudioLoader` から分離してある唯一の理由は、ここだけが単体テスト可能だから |
 | `DancePlayer` | 上記を配線し、毎フレーム dspTime から拍を進める |
 | `DanceUi` | 実行時に uGUI を組み立てる。開く / 再生・停止 / BPM スライダー（60〜200）/ ダンス切替の 4 コントロールと、1 行のメッセージ表示 |
@@ -35,6 +35,10 @@ Unity 6000.5.10f1 / URP。入力は Input System のみ。UI は uGUI。ファ�
 Editor（`Assets/Editor/`、アセンブリ `BabyDance.Editor`）: `BabyDance` と URP Runtime を参照する。逆向きの参照はない。
 
 シーンには Canvas も EventSystem も焼かない。`DanceUi` が実行時に構築するため、シーンに存在すると実行時生成が抑止される。
+
+`DanceUi` が読む状態はすべて `DancePlayer` が公開する。選択中のダンス番号も `DancePlayer` が持つため、UI は `DanceDriver` を直接触らず、両者の `Start` の実行順にも依存しない。
+
+ログ行の接頭辞 `[BabyDance]` はランタイムの `Log.Tag` が唯一の定義で、Editor 側もこれを参照する。`tools/unity.sh` がこの文字列を grep する以上、定義が散ると壊れたときに気づけない。
 
 ## アセット生成
 
@@ -44,7 +48,9 @@ FBX の設定・AnimatorController・シーン・ビルドはすべて Editor �
 
 `DanceDriver` は Bake Into Pose に加えて `applyRootMotion = false` も設定する。二重の防御であり、キャラの Transform がアニメーションから書かれることはない。原地から流れていくことは構造的に起こらない。
 
-**AnimatorController の GUID は生成を繰り返しても変わらない。** シーンは controller を GUID で参照するため、削除して作り直すと参照が無症状で切れる（例外も出ず、UI も正常に構築され、キャラだけが動かない）。生成は既存アセットを読み込んで State を入れ替える形で行う。
+**AnimatorController の GUID は生成を繰り返しても変わらない。** シーンは controller を GUID で参照するため、削除して作り直すと参照が無症状で切れる（例外も出ず、UI も正常に構築され、キャラだけが動かない）。生成は既存アセットを読み込み、中身だけ差し替える形で行う。
+
+State も名前で引き当てて再利用する。消して足し直すと State に新しい fileID が振られ、生成のたびに内容の変わらない差分だけが出る。同じダンス構成で 2 回生成すれば `Dance.controller` に差分は出ない。
 
 `DanceClipInfo` を再生成しても調律定数は保持され、クリップと State 名だけが更新される。対応する FBX が無くなった `.asset` は削除される。クリップ名が衝突するダンスがあれば例外で止まる。
 
@@ -56,9 +62,21 @@ FBX の設定・AnimatorController・シーン・ビルドはすべて Editor �
 
 どちらも生成時に上書きされないので、手で調整した値はそのまま残る。
 
+## WebGL 配布
+
+ビルド対象は WebGL のみ。`tools/unity.sh build` が `Builds/WebGL` に出力し、`tools/deploy.sh` がその中身を `gh-pages` ブランチの単一コミットとして force push する。GitHub Pages はこのブランチのルートを配信する。履歴は持たない。
+
+ファイル選択は `Assets/Plugins/WebGL/AudioFilePicker.jslib` が `<input type="file">` を開き、選択後に `SendMessage(<GameObject 名>, "OnFileChosen", "<ファイル名>\n<blob URL>")` で `AudioLoader` に返す。blob URL には拡張子が無いため、ファイル名を一緒に返して `AudioFileType` の拡張子判定を成立させている。キャンセル時は何も返らない。WebGL 以外（Editor 再生）では「開く」はエラーを 1 行表示するだけで、別経路は持たない。
+
+デコードはブラウザの `decodeAudioData` が非同期に行う。`DownloadHandlerAudioClip.GetContent` が返した直後の clip は `length` が 0・`loadState` が `Unloaded` で、Unity 自身が「Trying to get length of sound which is not loaded yet」を出す。`AudioLoader` は `length` が正になるまで 0.1 秒間隔で待ち（上限 15 秒）、その後に `Loaded` を発火する。実測では 60 秒の WAV で 0.2 秒。サンプリングレートはブラウザの `AudioContext` に合わせて変わる（22.05 kHz の入力が 44.1 kHz で返る）ため、`frequency` を前提にした計算は置かない。
+
+圧縮は Brotli のまま Decompression Fallback を有効にしている。GitHub Pages は `.br` に `Content-Encoding` ヘッダを付けないため、ヘッダ無しで動く JS 側の解凍に頼る。
+
+再生開始はユーザーの「開く」操作の後なので、ブラウザの自動再生制限には当たらない。
+
 ## CLI 運用
 
-Unity の操作は `tools/unity.sh` を通す。`compile` / `test <EditMode|PlayMode> <期待件数>` / `exec <完全メソッド名>` / `build` を持つ。
+Unity の操作は `tools/unity.sh` を通す。`compile` / `test <EditMode|PlayMode> <期待件数>` / `exec <完全メソッド名>` / `build`（WebGL）を持つ。配布は `tools/deploy.sh`。
 
 このラッパーの存在理由は速記ではなく、**判定不能を成功と読ませないこと**にある。ログが書かれていない、結果 XML が無い、テスト件数が期待と違う、`error CS` がある、Editor メソッドが完了マーカーを出していない — いずれも非 0 終了になる。Unity の終了コード 0 だけを見て成功と判定しない。
 
@@ -70,9 +88,9 @@ GUI の Editor が同じプロジェクトを開いていると CLI は失敗す
 
 ## テスト方針
 
-自動テストは決定的な部分に限る。EditMode が `BeatClock`・`DanceDriver` の純粋関数・拡張子判定、PlayMode が無効化 Animator の手動ティック。
+自動テストは決定的な部分に限る。EditMode が `BeatClock`・`DanceDriver` の純粋関数・拡張子判定・ピッカー応答の分解、PlayMode が無効化 Animator の手動ティック。
 
-`AudioLoader`・`DancePlayer`・`DanceUi` に自動テストは無い。ネイティブファイルダイアログ、`file://` 経由のデコード、オーディオハードウェアクロック、実行時 uGUI 構築はいずれもバッチモードで動かせない。これらの検証はコンパイルと、ビルド済みアプリの起動ログ確認と、人手の目視による。
+`AudioLoader`・`DancePlayer`・`DanceUi` に自動テストは無い。ブラウザのファイル選択、blob URL 経由のデコード、オーディオハードウェアクロック、実行時 uGUI 構築はいずれもバッチモードで動かせない。これらの検証はコンパイルと、ビルド済みページをブラウザで開いたときのコンソール確認と、人手の目視による。
 
 テストは「通るか」ではなく「壊れた実装で落ちるか」で評価する。各ガードには意図的に壊して落ちることを確認した実績がある。
 
@@ -84,6 +102,6 @@ Mecanim の `AnimatorStateInfo.normalizedTime` はラップせず増加し続け
 
 音声出力レイテンシ（macOS で 10〜30 ms 程度）のぶん、映像は音声より一定量先行する。時間とともに増えないのでドリフトとは区別できる。
 
-Windows Build Support は未インストール。ビルド対象は Mac と WebGL のみ。
+ビルド対象は WebGL のみ。Mac 用のビルドスクリプトは持たない。
 
 `DefaultControls` を空の `Resources` で使うため、ドロップダウンの矢印とチェックマークは描かれない。Sprite の無い `Image` は単色矩形になる。

@@ -10,23 +10,14 @@
 
 **ダンスの追加** — `Assets/Characters/` に FBX を置き、`BabyDance.Editor.AssetTools.BuildDanceAssets` を実行し、`SceneBuilder.Build` でシーンを作り直す。`beatsPerLoop` はクリップ長から初期値が入る。
 
-**WebGL 配布** — ビルド対象としては可能。`StandaloneFileBrowser` は WebGL をサポートするが挙動が異なる。オーディオの DSP クロックがブラウザでどう振る舞うかは未調査。
-
 **シーク / プレイリスト** — 再生位置の移動は `BeatClock` の再アンカーで表現できるが、UI とスケジュール再生の扱いを設計し直す必要がある。
-
-**Windows ビルド** — Build Support のインストールが前提。
 
 ## 判明している負債
 
 いずれも動作に影響しないと確認済み。着手の優先度は低い。
 
-- `BuildDanceAssets` を再実行すると `Dance.controller` の State に新しい fileID が振られ、毎回 60 行ほど差分ノイズが出る。State は名前で参照するため動作には影響しない。
 - Animator 側のエラーはログにしか出ない。音声の読込エラーは画面に 1 行表示されるので、扱いが非対称になっている。
-- `DanceUi` が `player.driver.CurrentIndex` を直接読んでおり、ここだけ `DancePlayer` の窓口を迂回している。これが `Start` の実行順に依存する唯一の箇所でもある。`DancePlayer` 側に現在のダンス番号を公開すれば両方が解消する。
-- `DancePlayer` の初期ダンス設定が UI 更新イベントを発火しない。初期番号が 0 で uGUI 側がクランプするため実害が出ていない。
-- `ProjectSettings` の `templateDefaultScene` が削除済みの SampleScene を指している。Editor 専用で無害。
-- `Assets/music/` の MP3 4 本（12MB）はアプリから参照されていない。ファイルダイアログで読む設計なので `Assets/` の外に置いても動く。
-- ログ用のタグ文字列 `[BabyDance]` が 4 箇所で個別に定義されている。`tools/unity.sh` がこの文字列を grep するため、実質的には 4 つの複製を持つ契約になっている。
+- `Assets/music/` の MP3 4 本（12MB）はアプリから参照されていない。ブラウザのファイル選択で読む設計なので `Assets/` の外に置いても動く。
 
 ## 未解決の問い
 

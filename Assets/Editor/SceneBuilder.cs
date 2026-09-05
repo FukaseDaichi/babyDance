@@ -9,7 +9,6 @@ namespace BabyDance.Editor
 {
     public static class SceneBuilder
     {
-        private const string Tag = "[BabyDance]";
         public const string ScenePath = "Assets/Scenes/Dance.unity";
 
         /// <summary>CLI: tools/unity.sh exec BabyDance.Editor.SceneBuilder.Build</summary>
@@ -23,7 +22,7 @@ namespace BabyDance.Editor
                 .Select(AssetDatabase.LoadAssetAtPath<DanceClipInfo>)
                 .ToArray();
             if (characterPrefab == null || controller == null || dances.Length == 0)
-                throw new InvalidOperationException($"{Tag} missing inputs: character={characterPrefab != null} controller={controller != null} dances={dances.Length}");
+                throw new InvalidOperationException($"{Log.Tag} missing inputs: character={characterPrefab != null} controller={controller != null} dances={dances.Length}");
 
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
 
@@ -57,10 +56,10 @@ namespace BabyDance.Editor
             playerGo.GetComponent<DanceUi>().player = player;
 
             if (!EditorSceneManager.SaveScene(scene, ScenePath))
-                throw new InvalidOperationException($"{Tag} failed to save {ScenePath}");
+                throw new InvalidOperationException($"{Log.Tag} failed to save {ScenePath}");
             EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene(ScenePath, true) };
             AssetDatabase.SaveAssets();
-            Debug.Log($"{Tag} BabyDance.Editor.SceneBuilder.Build done: {ScenePath} dances={dances.Length}");
+            Debug.Log($"{Log.Tag} BabyDance.Editor.SceneBuilder.Build done: {ScenePath} dances={dances.Length}");
         }
     }
 }

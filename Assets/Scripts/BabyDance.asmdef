@@ -3,8 +3,7 @@
     "rootNamespace": "BabyDance",
     "references": [
         "UnityEngine.UI",
-        "Unity.InputSystem",
-        "StandaloneFileBrowser"
+        "Unity.InputSystem"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

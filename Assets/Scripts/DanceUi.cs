@@ -25,7 +25,7 @@ namespace BabyDance
         private void Start()
         {
             _font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-            if (_font == null) Debug.LogError("[BabyDance] LegacyRuntime.ttf did not resolve");
+            if (_font == null) Debug.LogError($"{Log.Tag} LegacyRuntime.ttf did not resolve");
             BuildEventSystem();
             var panel = BuildCanvasAndPanel();
 
@@ -53,7 +53,7 @@ namespace BabyDance
             _playLabel.text = player.IsPlaying ? "Stop" : "Play";
             _bpmLabel.text = $"BPM {player.Bpm:0}";
             _bpmSlider.SetValueWithoutNotify((float)player.Bpm);
-            _danceDropdown.SetValueWithoutNotify(player.driver.CurrentIndex);
+            _danceDropdown.SetValueWithoutNotify(player.CurrentDance);
         }
 
         private static void BuildEventSystem()

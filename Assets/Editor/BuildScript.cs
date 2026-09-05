@@ -7,23 +7,23 @@ namespace BabyDance.Editor
 {
     public static class BuildScript
     {
-        private const string Tag = "[BabyDance]";
+        public const string OutputPath = "Builds/WebGL";
 
         /// <summary>CLI: tools/unity.sh build</summary>
-        public static void BuildMac()
+        public static void BuildWebGL()
         {
             var options = new BuildPlayerOptions
             {
                 scenes = new[] { SceneBuilder.ScenePath },
-                locationPathName = "Builds/Mac/BabyDance.app",
-                target = BuildTarget.StandaloneOSX,
+                locationPathName = OutputPath,
+                target = BuildTarget.WebGL,
                 options = BuildOptions.None,
             };
             var summary = BuildPipeline.BuildPlayer(options).summary;
-            Debug.Log($"{Tag} BuildMac result={summary.result} size={summary.totalSize} errors={summary.totalErrors} path={summary.outputPath}");
+            Debug.Log($"{Log.Tag} BuildWebGL result={summary.result} size={summary.totalSize} errors={summary.totalErrors} path={summary.outputPath}");
             if (summary.result != BuildResult.Succeeded)
-                throw new BuildFailedException($"{Tag} build failed: {summary.result}");
-            Debug.Log($"{Tag} BabyDance.Editor.BuildScript.BuildMac done");
+                throw new BuildFailedException($"{Log.Tag} build failed: {summary.result}");
+            Debug.Log($"{Log.Tag} BabyDance.Editor.BuildScript.BuildWebGL done");
         }
     }
 }

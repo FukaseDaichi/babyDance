@@ -21,6 +21,9 @@ namespace BabyDance
         public int DanceCount => driver.dances.Length;
         public string DanceName(int index) => driver.dances[index].clip.name;
 
+        /// <summary>選択中のダンス番号。driver の初期化順に依存させないため、ここが唯一の窓口になる。</summary>
+        public int CurrentDance { get; private set; }
+
         private void Awake()
         {
             _clock = new BeatClock(initialBpm);
@@ -30,7 +33,7 @@ namespace BabyDance
 
         private void Start()
         {
-            driver.SetDance(0, 0.0);
+            SelectDance(0);
         }
 
         private void Update()
@@ -60,6 +63,7 @@ namespace BabyDance
 
         public void SelectDance(int index)
         {
+            CurrentDance = index;
             driver.SetDance(index, _clock.BeatAt(AudioSettings.dspTime));
             Changed?.Invoke();
         }
@@ -68,7 +72,7 @@ namespace BabyDance
         {
             var start = audio.Play();
             _clock.Start(start);
-            driver.SetDance(driver.CurrentIndex, _clock.BeatAt(AudioSettings.dspTime));
+            driver.SetDance(CurrentDance, _clock.BeatAt(AudioSettings.dspTime));
             Changed?.Invoke();
         }
 

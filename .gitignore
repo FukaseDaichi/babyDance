@@ -4,6 +4,8 @@
 /[Oo]bj/
 /[Bb]uild/
 /[Bb]uilds/
+# Burst が WebGL ビルド時にプロジェクト直下へ吐く中間生成物
+/Data/
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
 /[Mm]emoryCaptures/

@@ -18,8 +18,6 @@ namespace BabyDance
         private DanceClipInfo _current;
         private double _lastBeat;
 
-        public int CurrentIndex { get; private set; } = -1;
-
         private void Awake()
         {
             _animator = GetComponent<Animator>();
@@ -42,7 +40,6 @@ namespace BabyDance
                 _animator.CrossFadeInFixedTime(next.stateName, (float)SecondsPerBeat(next), Layer, phase * next.clip.length);
 
             _current = next;
-            CurrentIndex = index;
             _lastBeat = currentBeat;
             _animator.Update(0f);
         }

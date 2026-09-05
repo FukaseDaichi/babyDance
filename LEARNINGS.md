@@ -15,6 +15,10 @@
 - 2026-09-04: ビルド成果物を人手検証に渡す前に、起動してログの例外を grep するだけの短いスモークテストを挟む。起動時に走る初期化が契約の検査を兼ねていることが多く（本件では Animator の State 名解決）、人間の時間を使う前に潰せる。
 - 2026-09-04: Editor ツールの「人手値は保持・生成値は上書き」というラウンドトリップを GUI なしで検証する型: 対象 `.asset`（素の YAML）を `sed` で手調整値に書き換え、生成メソッドを実行し、ログ出力とファイル再読込の両方で確認する。
 - 2026-09-04: Unity リポジトリに `.agents/` や `.claude/` などツール系ディレクトリを新設したら `git check-ignore -v` で除外を確認する。Unity 標準の .gitignore は除外パターンが広範で、追跡されないまま「ローカルでは動く」状態を作りやすい。
+- 2026-09-05: 「再生成のたびに差分ノイズが出る」型の負債は、直す前に一度生成を走らせて差分行数を測ってから直す。修正後のゼロ差分は、直前に非ゼロを見ていて初めて証拠になる。
+- 2026-09-05: 生成ツールの削除経路は、使い捨ての入力（既存 FBX のコピー）を足して生成し、入力を消してもう一度生成する形で end-to-end 検証できる。新規に作られたアセットしか消えないので、シーンが GUID で参照する既存アセットを壊さずに済む。
+- 2026-09-05: Chrome で Unity WebGL のファイル選択を検証する型: ボタン押下で開いた OS のダイアログは Escape で閉じ、display:none の input は a11y ツリーに出ないので JS で表示に戻してから find → file_upload で流し込む。アップロード上限 10 MB に合わせて音源は短く生成する（60 秒・22.05 kHz で 2.6 MB）。
+- 2026-09-05: 「どちらの条件で落ちたか不明」なエラーは、判別に要る値（null か、length・loadState はいくつか）をエラーメッセージ自体に載せて 1 ビルド使う。調査用の計測がそのまま製品のエラーメッセージ改善として残る。
 
 ## Mistakes to Avoid
 （失敗と再発防止策）
@@ -26,19 +30,27 @@
 - 2026-09-04: Unity の `ModelImporterClipAnimation` は C# プロパティ名と `.meta` の直列化キー名が一致しない（`lockRootRotation` → `loopBlendOrientation`、`lockRootHeightY` → `loopBlendPositionY`、`lockRootPositionXZ` → `loopBlendPositionXZ`）。プロパティ名で `.meta` を grep する検証手順は正しい実装でも空振りする。
 - 2026-09-04: AGENTS.md の「LEARNINGS.md ループ」指示はサブエージェントにも発火し、実装者が各自 LEARNINGS.md へ追記しようとする。dispatch 側で明示的に禁止し、観察は報告経由で集約する。
 - 2026-09-04: awk のセクション範囲カウントをファイル末尾への追記で検証すると、追記行が最終セクションに落ちて 0 が返り、カウンタの故障と誤読する。範囲判定のテストは対象セクションへの挿入位置を明示して行う。
+- 2026-09-05: gh-pages ブランチを初回 push すると GitHub 側が Pages を自動有効化し、直後の有効化 POST が 409 で失敗する。有効化の成否は POST の戻りではなく、その後の GET で判定する。
 
 ## Domain Knowledge
 （業務・仕様に関する事実）
+- 2026-09-05: 同一の作業ツリーで別の Claude セッションが並行して編集していることがある。git status に自分が触っていない変更が現れたら、ps と lsof -d cwd で他プロセスの作業ディレクトリを確かめる。相手が TDD の red 段階だと、こちらのコンパイル・ビルド検証が相手のテストで落ちる。
 - 2026-09-04: superpowers の finishing-a-development-branch は feature ブランチからの統合を前提に 3 択（base へマージ / PR / 現状維持）を出す。main で直接作業した場合はどれもそのままでは当てはまらないので、実状（push する / ブランチに移して PR / ローカルに留める）に組み直して提示する。
 - 2026-09-04: Unity のテストランナーはテスト失敗時にプロセス終了コードを 2 で返す。終了コード判定を結果 XML の件数判定より先に置くと、件数ベースの詳細メッセージは通常の失敗経路では到達しない。
 - 2026-09-04: Unity 6 の `GameObject.CreatePrimitive` はアクティブなレンダーパイプラインの既定材質を割り当てるため、URP プロジェクトでもマゼンタにならない。旧バージョンの「ビルトイン材質が付いてマゼンタになる」という経験則は通用しない。
 - 2026-09-04: Mixamo の「Without Skin」で落としたダンス FBX も、`animationType = Human` + `avatarSetup = CreateFromThisModel` で有効な Humanoid Avatar を生成する。スキン無しでも Humanoid リターゲットの供給側になれる。
 - 2026-09-04: Mecanim の `AnimatorStateInfo.normalizedTime` はラップせず増加し続けるため float 精度が総再生時間とともに劣化する。無効化した Animator を手動 `Animator.Update` で 5 分駆動すると約 30 ms のずれが出る。設計の欠陥ではなくエンジン側の下限。
 - 2026-09-04: プロジェクトスキルを新規作成すると、セッション再起動なしで同一セッション中にハーネスが検出し呼び出せるようになる。なお `ListSkills` は claude.ai スキルの一覧なので、プロジェクトスキルの登録確認には使えない。
+- 2026-09-05: WebGL の AudioClip はサンプリングレートがブラウザの AudioContext に合わせて変わる（22.05 kHz の WAV が frequency=44100 で返る）。frequency を前提にした計算は置かない。
+- 2026-09-05: Chrome は OS のファイルダイアログが開いている間 requestAnimationFrame を止めるため、Unity WebGL のコルーチンも WaitForSecondsRealtime も進まない。ダイアログを閉じるまで Loaded が出ないのは正常で、実利用では選択と同時に閉じるので影響しない。
+- 2026-09-05: StandaloneFileBrowser 1.3.4 は WebGL 用のラッパー実装を持たず、WebGL では `_platformWrapper` が null のまま NullReference になる。jslib は同梱されているが自前の DllImport が必要で、自前の jslib を書くのと手間が変わらない。
+- 2026-09-05: Unity 6 WebGL では `DownloadHandlerAudioClip.GetContent` が返した直後の clip は `length=0` / `loadState=Unloaded` で、Unity 自身が LOG に「Trying to get length of sound which is not loaded yet」を出す。デコードはブラウザの decodeAudioData で非同期に進むため、`length` が正になるまで待つ（60 秒 WAV で 0.2 秒）。
+- 2026-09-05: Burst は WebGL ビルド時に `Data/Plugins/lib_burst_generated.{cpp,wasm}` をプロジェクト直下へ吐く。Unity 標準の .gitignore には無いので `/Data/` を追加する。
 
 ## Open Questions
 （未解決・要調査）
 - 2026-09-04: 「5 分再生してドリフトしない」を自動回帰テストで守れるか。位相が絶対拍位置の純関数である限り、長時間テストは Mecanim 内部の累積を再測定するだけになり、このリポジトリのソース変更で壊せる対象が見つかっていない。
+- 2026-09-05: ブラウザでの拍同期精度（`PlayScheduled` と `dspTime` の関係）は未計測。現状は目視・聴感の確認のみで、数値で測る手段が無い。
 
 ## Consolidated Principles
 （統合パス専用。通常の更新処理から直接追記しない）

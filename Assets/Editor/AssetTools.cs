@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEditor;
@@ -9,7 +10,6 @@ namespace BabyDance.Editor
 {
     public static class AssetTools
     {
-        private const string Tag = "[BabyDance]";
         public const string CharacterFbx = CharacterImportSettings.Folder + "XBot.fbx";
 
         public static string[] CharacterFbxPaths() =>
@@ -28,7 +28,7 @@ namespace BabyDance.Editor
         public static void ReimportCharacters()
         {
             var paths = CharacterFbxPaths();
-            if (paths.Length == 0) throw new InvalidOperationException($"{Tag} no FBX in {CharacterImportSettings.Folder}");
+            if (paths.Length == 0) throw new InvalidOperationException($"{Log.Tag} no FBX in {CharacterImportSettings.Folder}");
 
             foreach (var p in paths)
                 AssetDatabase.ImportAsset(p, ImportAssetOptions.ForceUpdate | ImportAssetOptions.ForceSynchronousImport);
@@ -40,14 +40,14 @@ namespace BabyDance.Editor
                 var avatar = AssetDatabase.LoadAllAssetsAtPath(p).OfType<Avatar>().FirstOrDefault();
                 var clip = MainClip(p);
                 var clipDesc = clip == null ? "none" : $"{clip.name}:{clip.length:F2}s:loop={clip.isLooping}";
-                Debug.Log($"{Tag} {p} type={importer.animationType} avatarValid={avatar != null && avatar.isValid} human={avatar != null && avatar.isHuman} clip={clipDesc}");
+                Debug.Log($"{Log.Tag} {p} type={importer.animationType} avatarValid={avatar != null && avatar.isValid} human={avatar != null && avatar.isHuman} clip={clipDesc}");
 
                 if (avatar == null || !avatar.isValid || !avatar.isHuman)
-                    throw new InvalidOperationException($"{Tag} {p} has no valid Humanoid avatar");
+                    throw new InvalidOperationException($"{Log.Tag} {p} has no valid Humanoid avatar");
                 if (p != CharacterFbx && (clip == null || !clip.isLooping))
-                    throw new InvalidOperationException($"{Tag} {p} has no looping AnimationClip");
+                    throw new InvalidOperationException($"{Log.Tag} {p} has no looping AnimationClip");
             }
-            Debug.Log($"{Tag} BabyDance.Editor.AssetTools.ReimportCharacters done: {paths.Length} files");
+            Debug.Log($"{Log.Tag} BabyDance.Editor.AssetTools.ReimportCharacters done: {paths.Length} files");
         }
 
         public const string DanceFolder = "Assets/Dance";
@@ -59,28 +59,32 @@ namespace BabyDance.Editor
         {
             var dancePaths = DanceFbxPaths();
             if (dancePaths.Length == 0)
-                throw new InvalidOperationException($"{Tag} no dance FBX found in {CharacterImportSettings.Folder}");
+                throw new InvalidOperationException($"{Log.Tag} no dance FBX found in {CharacterImportSettings.Folder}");
 
             if (!AssetDatabase.IsValidFolder(DanceFolder))
                 AssetDatabase.CreateFolder("Assets", "Dance");
 
             // 作り直すと GUID が変わり、GUID で controller を参照している Dance.unity が
-            // 無言で切れる。既存があれば読み直し、state だけ消して組み直す。
+            // 無言で切れる。既存があれば読み直し、中身だけ差し替える。
             var controller = AssetDatabase.LoadAssetAtPath<AnimatorController>(ControllerPath)
                              ?? AnimatorController.CreateAnimatorControllerAtPath(ControllerPath);
             var stateMachine = controller.layers[0].stateMachine;
-            foreach (var child in stateMachine.states)
-                stateMachine.RemoveState(child.state); // 配列の再代入では state がサブアセットとして残る
-            var keep = new System.Collections.Generic.HashSet<string>();
+            var keep = new HashSet<string>();
+            var wanted = new HashSet<string>();
 
             foreach (var fbx in dancePaths)
             {
-                var clip = MainClip(fbx) ?? throw new InvalidOperationException($"{Tag} no AnimationClip in {fbx}");
-                var state = stateMachine.AddState(clip.name);
+                var clip = MainClip(fbx) ?? throw new InvalidOperationException($"{Log.Tag} no AnimationClip in {fbx}");
+                // 消して足し直すと state に新しい fileID が振られ、再生成のたびに差分ノイズだけが出る。
+                // 名前で引き当て、既存があれば motion を差し替える。
+                var state = stateMachine.states.Select(c => c.state).FirstOrDefault(s => s.name == clip.name)
+                            ?? stateMachine.AddState(clip.name);
                 state.motion = clip;
+                EditorUtility.SetDirty(state);
+                wanted.Add(clip.name);
 
                 var infoPath = $"{DanceFolder}/{clip.name}.asset";
-                if (!keep.Add(infoPath)) throw new InvalidOperationException($"{Tag} duplicate clip name: {clip.name}");
+                if (!keep.Add(infoPath)) throw new InvalidOperationException($"{Log.Tag} duplicate clip name: {clip.name}");
                 var info = AssetDatabase.LoadAssetAtPath<DanceClipInfo>(infoPath);
                 if (info == null)
                 {
@@ -92,7 +96,15 @@ namespace BabyDance.Editor
                 info.clip = clip;
                 info.stateName = $"{LayerName}.{clip.name}";
                 EditorUtility.SetDirty(info);
-                Debug.Log($"{Tag} dance {clip.name} length={clip.length:F2}s beatsPerLoop={info.beatsPerLoop} beatOffset={info.beatOffset}");
+                Debug.Log($"{Log.Tag} dance {clip.name} length={clip.length:F2}s beatsPerLoop={info.beatsPerLoop} beatOffset={info.beatOffset}");
+            }
+
+            foreach (var child in stateMachine.states)
+            {
+                if (wanted.Contains(child.state.name)) continue;
+                var removed = child.state.name;
+                stateMachine.RemoveState(child.state); // 配列の再代入では state がサブアセットとして残る
+                Debug.Log($"{Log.Tag} removed state {removed}");
             }
 
             var stale = AssetDatabase.FindAssets("t:DanceClipInfo", new[] { DanceFolder })
@@ -102,11 +114,11 @@ namespace BabyDance.Editor
             foreach (var p in stale)
             {
                 AssetDatabase.DeleteAsset(p);
-                Debug.Log($"{Tag} deleted stale {p}");
+                Debug.Log($"{Log.Tag} deleted stale {p}");
             }
 
             AssetDatabase.SaveAssets();
-            Debug.Log($"{Tag} BabyDance.Editor.AssetTools.BuildDanceAssets done: {stateMachine.states.Length} states");
+            Debug.Log($"{Log.Tag} BabyDance.Editor.AssetTools.BuildDanceAssets done: {stateMachine.states.Length} states");
         }
     }
 }

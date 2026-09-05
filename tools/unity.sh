@@ -43,10 +43,10 @@ case "${1:-}" in
     echo "OK exec $method"
     ;;
   build)
-    run_unity Logs/build.log -quit -buildTarget StandaloneOSX -executeMethod BabyDance.Editor.BuildScript.BuildMac
+    run_unity Logs/build.log -quit -buildTarget WebGL -executeMethod BabyDance.Editor.BuildScript.BuildWebGL
     grep -E "\[BabyDance\]" Logs/build.log
-    grep -q "\[BabyDance\] BabyDance.Editor.BuildScript.BuildMac done" Logs/build.log || fail "no done marker for BuildMac"
-    [ -d Builds/Mac/BabyDance.app ] || fail "Builds/Mac/BabyDance.app missing"
+    grep -q "\[BabyDance\] BabyDance.Editor.BuildScript.BuildWebGL done" Logs/build.log || fail "no done marker for BuildWebGL"
+    [ -f Builds/WebGL/index.html ] || fail "Builds/WebGL/index.html missing"
     echo "OK build"
     ;;
   *)
