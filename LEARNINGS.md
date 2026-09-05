@@ -19,6 +19,9 @@
 - 2026-09-05: 生成ツールの削除経路は、使い捨ての入力（既存 FBX のコピー）を足して生成し、入力を消してもう一度生成する形で end-to-end 検証できる。新規に作られたアセットしか消えないので、シーンが GUID で参照する既存アセットを壊さずに済む。
 - 2026-09-05: Chrome で Unity WebGL のファイル選択を検証する型: ボタン押下で開いた OS のダイアログは Escape で閉じ、display:none の input は a11y ツリーに出ないので JS で表示に戻してから find → file_upload で流し込む。アップロード上限 10 MB に合わせて音源は短く生成する（60 秒・22.05 kHz で 2.6 MB）。
 - 2026-09-05: 「どちらの条件で落ちたか不明」なエラーは、判別に要る値（null か、length・loadState はいくつか）をエラーメッセージ自体に載せて 1 ビルド使う。調査用の計測がそのまま製品のエラーメッセージ改善として残る。
+- 2026-09-05: 「値が純関数である」設計は、カメラのような時間依存の演出にも横展開できる。姿勢を拍の純関数にしたので、カット境界・着地の静止・サイクル一致を EditMode で決定的に検証でき、時間源を増やさずに済んだ。
+- 2026-09-05: clamp のようなガードは、譜面の中に「ガードが実際に効く箇所」（ピッチ −20 に Shake を重ねる等）をわざと作っておく。全走査テストはそれで初めて「ガードを外すと落ちる」ようになる。ガードを外して落ちることまで確認して初めて完了。
+- 2026-09-05: アプリ内 Browser（file_upload の無い方）で Unity WebGL のファイル選択を通す型: 「開く」を押して OS ダイアログを Escape で閉じた後、served ディレクトリに置いた WAV を fetch → DataTransfer で input.files に入れ input.onchange() を直接呼ぶ。10 MB 制限は無いが、WAV は Builds/ 配下（gitignore 済）に置く。
 
 ## Mistakes to Avoid
 （失敗と再発防止策）
@@ -31,6 +34,8 @@
 - 2026-09-04: AGENTS.md の「LEARNINGS.md ループ」指示はサブエージェントにも発火し、実装者が各自 LEARNINGS.md へ追記しようとする。dispatch 側で明示的に禁止し、観察は報告経由で集約する。
 - 2026-09-04: awk のセクション範囲カウントをファイル末尾への追記で検証すると、追記行が最終セクションに落ちて 0 が返り、カウンタの故障と誤読する。範囲判定のテストは対象セクションへの挿入位置を明示して行う。
 - 2026-09-05: gh-pages ブランチを初回 push すると GitHub 側が Pages を自動有効化し、直後の有効化 POST が 409 で失敗する。有効化の成否は POST の戻りではなく、その後の GET で判定する。
+- 2026-09-05: MMD 系資料の FOV / 距離の目安値をそのまま Unity に入れると、1.8 m のキャラでは半身が切れ、肩越しで頭部が画面を埋める。h = 2·d·tan(FOV/2) で「見せたい高さ」から距離を逆算してから譜面に入れる。
+- 2026-09-05: WebGL で Loaded 直後に Play を押すと、ボタンの interactable 更新前でクリックが捨てられる。バッチ操作では Loaded メッセージを確認してから Play を押す。
 
 ## Domain Knowledge
 （業務・仕様に関する事実）
@@ -46,6 +51,7 @@
 - 2026-09-05: StandaloneFileBrowser 1.3.4 は WebGL 用のラッパー実装を持たず、WebGL では `_platformWrapper` が null のまま NullReference になる。jslib は同梱されているが自前の DllImport が必要で、自前の jslib を書くのと手間が変わらない。
 - 2026-09-05: Unity 6 WebGL では `DownloadHandlerAudioClip.GetContent` が返した直後の clip は `length=0` / `loadState=Unloaded` で、Unity 自身が LOG に「Trying to get length of sound which is not loaded yet」を出す。デコードはブラウザの decodeAudioData で非同期に進むため、`length` が正になるまで待つ（60 秒 WAV で 0.2 秒）。
 - 2026-09-05: Burst は WebGL ビルド時に `Data/Plugins/lib_burst_generated.{cpp,wasm}` をプロジェクト直下へ吐く。Unity 標準の .gitignore には無いので `/Data/` を追加する。
+- 2026-09-05: superpowers の executing-plans は main 直接作業を禁じるが、Unity プロジェクトで git worktree を作ると Library の再インポートが走る。ブランチをその場で切り替える方が現実的。
 
 ## Open Questions
 （未解決・要調査）
