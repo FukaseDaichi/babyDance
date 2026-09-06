@@ -50,6 +50,59 @@ namespace BabyDance.Editor
             Debug.Log($"{Log.Tag} BabyDance.Editor.AssetTools.ReimportCharacters done: {paths.Length} files");
         }
 
+        /// <summary>URP の標準マテリアル設定を使い、名前付き FBX スロットへ remap する。</summary>
+        public static void BuildFaceMaterials()
+        {
+            var importer = (ModelImporter)AssetImporter.GetAtPath(CharacterFbx);
+            foreach (var name in new[] { "FaceEyes", "FaceMouth" })
+            {
+                var texturePath = $"Assets/Characters/{name}.png";
+                var textureImporter = (TextureImporter)AssetImporter.GetAtPath(texturePath);
+                if (textureImporter == null) throw new InvalidOperationException($"Missing atlas {texturePath}");
+                textureImporter.textureType = TextureImporterType.Default;
+                textureImporter.sRGBTexture = true;
+                textureImporter.alphaSource = TextureImporterAlphaSource.FromInput;
+                textureImporter.alphaIsTransparency = true;
+                textureImporter.wrapMode = TextureWrapMode.Clamp;
+                textureImporter.mipmapEnabled = true;
+                textureImporter.npotScale = TextureImporterNPOTScale.None;
+                textureImporter.filterMode = FilterMode.Bilinear;
+                textureImporter.SaveAndReimport();
+                var path = $"Assets/Characters/{name}.mat";
+                var shader = Shader.Find("Universal Render Pipeline/Lit");
+                if (shader == null) throw new InvalidOperationException("URP Lit shader missing");
+                var material = AssetDatabase.LoadAssetAtPath<Material>(path);
+                if (material == null)
+                {
+                    material = new Material(shader);
+                    AssetDatabase.CreateAsset(material, path);
+                }
+                material.shader = shader;
+                material.SetTexture("_BaseMap", AssetDatabase.LoadAssetAtPath<Texture2D>(texturePath));
+                material.SetColor("_BaseColor", Color.white);
+                material.SetFloat("_Surface", 1f);
+                material.SetFloat("_Blend", 0f);
+                material.SetFloat("_AlphaClip", 0f);
+                material.SetFloat("_Metallic", 0f);
+                material.SetFloat("_Smoothness", 0f);
+                BaseShaderGUI.SetMaterialKeywords(material);
+                EditorUtility.SetDirty(material);
+                importer.AddRemap(new AssetImporter.SourceAssetIdentifier(typeof(Material), name), material);
+            }
+            AssetDatabase.SaveAssets();
+            importer.SaveAndReimport();
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(CharacterFbx);
+            foreach (var name in new[] { "FaceEyes", "FaceMouth" })
+            {
+                var renderers = prefab.GetComponentsInChildren<SkinnedMeshRenderer>(true).Where(r => r.name == name).ToArray();
+                var expected = AssetDatabase.LoadAssetAtPath<Material>($"Assets/Characters/{name}.mat");
+                if (renderers.Length != 1 || renderers[0].sharedMaterial != expected)
+                    throw new InvalidOperationException($"Face renderer/remap missing: {name}, count={renderers.Length}");
+                Debug.Log($"{Log.Tag} face {name} renderer=1 material={expected.name}");
+            }
+            Debug.Log($"{Log.Tag} BabyDance.Editor.AssetTools.BuildFaceMaterials done");
+        }
+
         public const string DanceFolder = "Assets/Dance";
         public const string ControllerPath = DanceFolder + "/Dance.controller";
         public const string LayerName = "Base Layer";

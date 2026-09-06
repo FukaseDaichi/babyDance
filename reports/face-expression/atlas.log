@@ -1,0 +1,3 @@
+ATLAS FaceEyes 512x256 frames=8 core=120 padding=4 transparent_feature_px=0 padding_mismatches=0
+MOUTH dark_px closed/half/open=[199, 1248, 3556]
+ATLAS FaceMouth 384x128 frames=3 core=120 padding=4 transparent_feature_px=0 padding_mismatches=0

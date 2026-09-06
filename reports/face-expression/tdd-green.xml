@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="40" result="Passed" total="40" passed="40" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:51Z" duration="2.8184896">
+  <test-suite type="TestSuite" id="1000" name="babyDance" fullname="babyDance" runstate="Runnable" testcasecount="40" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:51Z" duration="2.818490" total="40" passed="40" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1048" name="BabyDance.Tests.EditMode.dll" fullname="/Users/fukasedaichi/git/babyDance/Library/ScriptAssemblies/BabyDance.Tests.EditMode.dll" runstate="Runnable" testcasecount="40" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:51Z" duration="2.813247" total="40" passed="40" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="80764" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1049" name="BabyDance" fullname="BabyDance" runstate="Runnable" testcasecount="40" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:51Z" duration="2.812761" total="40" passed="40" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1050" name="Tests" fullname="BabyDance.Tests" runstate="Runnable" testcasecount="40" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:51Z" duration="2.812300" total="40" passed="40" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1001" name="AudioFileTypeTests" fullname="BabyDance.Tests.AudioFileTypeTests" classname="BabyDance.Tests.AudioFileTypeTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.018968" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="ParameterizedMethod" id="1008" name="MapsExtensionToAudioType" fullname="BabyDance.Tests.AudioFileTypeTests.MapsExtensionToAudioType" classname="BabyDance.Tests.AudioFileTypeTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.016570" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1002" name="MapsExtensionToAudioType(&quot;/a/b/song.mp3&quot;,MPEG)" fullname="BabyDance.Tests.AudioFileTypeTests.MapsExtensionToAudioType(&quot;/a/b/song.mp3&quot;,MPEG)" methodname="MapsExtensionToAudioType" classname="BabyDance.Tests.AudioFileTypeTests" runstate="Runnable" seed="45815034" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.009139" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1003" name="MapsExtensionToAudioType(&quot;/a/b/SONG.MP3&quot;,MPEG)" fullname="BabyDance.Tests.AudioFileTypeTests.MapsExtensionToAudioType(&quot;/a/b/SONG.MP3&quot;,MPEG)" methodname="MapsExtensionToAudioType" classname="BabyDance.Tests.AudioFileTypeTests" runstate="Runnable" seed="1946172068" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.000136" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1004" name="MapsExtensionToAudioType(&quot;C:\\music\\loop.wav&quot;,WAV)" fullname="BabyDance.Tests.AudioFileTypeTests.MapsExtensionToAudioType(&quot;C:\\music\\loop.wav&quot;,WAV)" methodname="MapsExtensionToAudioType" classname="BabyDance.Tests.AudioFileTypeTests" runstate="Runnable" seed="1572862071" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.000056" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1005" name="MapsExtensionToAudioType(&quot;/x/y.ogg&quot;,OGGVORBIS)" fullname="BabyDance.Tests.AudioFileTypeTests.MapsExtensionToAudioType(&quot;/x/y.ogg&quot;,OGGVORBIS)" methodname="MapsExtensionToAudioType" classname="BabyDance.Tests.AudioFileTypeTests" runstate="Runnable" seed="633535460" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.000042" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1006" name="MapsExtensionToAudioType(&quot;/x/y.flac&quot;,UNKNOWN)" fullname="BabyDance.Tests.AudioFileTypeTests.MapsExtensionToAudioType(&quot;/x/y.flac&quot;,UNKNOWN)" methodname="MapsExtensionToAudioType" classname="BabyDance.Tests.AudioFileTypeTests" runstate="Runnable" seed="1743684291" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.000046" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1007" name="MapsExtensionToAudioType(&quot;/x/noext&quot;,UNKNOWN)" fullname="BabyDance.Tests.AudioFileTypeTests.MapsExtensionToAudioType(&quot;/x/noext&quot;,UNKNOWN)" methodname="MapsExtensionToAudioType" classname="BabyDance.Tests.AudioFileTypeTests" runstate="Runnable" seed="2086455811" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.000037" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+          </test-suite>
+          <test-suite type="TestFixture" id="1009" name="AudioLoaderPayloadTests" fullname="BabyDance.Tests.AudioLoaderPayloadTests" classname="BabyDance.Tests.AudioLoaderPayloadTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.001545" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1011" name="MissingNewlineYieldsEmptyUrl" fullname="BabyDance.Tests.AudioLoaderPayloadTests.MissingNewlineYieldsEmptyUrl" methodname="MissingNewlineYieldsEmptyUrl" classname="BabyDance.Tests.AudioLoaderPayloadTests" runstate="Runnable" seed="1349054873" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.000630" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1010" name="SplitsNameAndUrlOnFirstNewline" fullname="BabyDance.Tests.AudioLoaderPayloadTests.SplitsNameAndUrlOnFirstNewline" methodname="SplitsNameAndUrlOnFirstNewline" classname="BabyDance.Tests.AudioLoaderPayloadTests" runstate="Runnable" seed="453167037" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.000182" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1012" name="BeatClockTests" fullname="BabyDance.Tests.BeatClockTests" classname="BabyDance.Tests.BeatClockTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.002439" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1013" name="BeatAdvancesAtConstantBpm" fullname="BabyDance.Tests.BeatClockTests.BeatAdvancesAtConstantBpm" methodname="BeatAdvancesAtConstantBpm" classname="BabyDance.Tests.BeatClockTests" runstate="Runnable" seed="1130034170" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.001000" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1014" name="BeatIsNegativeBeforeStart" fullname="BabyDance.Tests.BeatClockTests.BeatIsNegativeBeforeStart" methodname="BeatIsNegativeBeforeStart" classname="BabyDance.Tests.BeatClockTests" runstate="Runnable" seed="2031483604" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.000078" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1015" name="ChangingBpmKeepsPhaseContinuous" fullname="BabyDance.Tests.BeatClockTests.ChangingBpmKeepsPhaseContinuous" methodname="ChangingBpmKeepsPhaseContinuous" classname="BabyDance.Tests.BeatClockTests" runstate="Runnable" seed="1667124867" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.000144" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1017" name="SetBpmWhileStoppedOnlyChangesRate" fullname="BabyDance.Tests.BeatClockTests.SetBpmWhileStoppedOnlyChangesRate" methodname="SetBpmWhileStoppedOnlyChangesRate" classname="BabyDance.Tests.BeatClockTests" runstate="Runnable" seed="519509815" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.000067" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1016" name="StoppedClockReportsZeroAndNotRunning" fullname="BabyDance.Tests.BeatClockTests.StoppedClockReportsZeroAndNotRunning" methodname="StoppedClockReportsZeroAndNotRunning" classname="BabyDance.Tests.BeatClockTests" runstate="Runnable" seed="827647045" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.000315" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1018" name="CameraScoreTests" fullname="BabyDance.Tests.CameraScoreTests" classname="BabyDance.Tests.CameraScoreTests" runstate="Runnable" testcasecount="14" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.196253" total="14" passed="14" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1032" name="AllPosesRespectLimits" fullname="BabyDance.Tests.CameraScoreTests.AllPosesRespectLimits" methodname="AllPosesRespectLimits" classname="BabyDance.Tests.CameraScoreTests" runstate="Runnable" seed="2123998677" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.020978" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1023" name="CameraNeverGoesUnderTheFloorAtAnyBeat" fullname="BabyDance.Tests.CameraScoreTests.CameraNeverGoesUnderTheFloorAtAnyBeat" methodname="CameraNeverGoesUnderTheFloorAtAnyBeat" classname="BabyDance.Tests.CameraScoreTests" runstate="Runnable" seed="863895452" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.164376" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1027" name="ChorusRushLandsAndStaysStill" fullname="BabyDance.Tests.CameraScoreTests.ChorusRushLandsAndStaysStill" methodname="ChorusRushLandsAndStaysStill" classname="BabyDance.Tests.CameraScoreTests" runstate="Runnable" seed="1436784362" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.001020" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1024" name="ClampLimitsPitchDistanceAndFov" fullname="BabyDance.Tests.CameraScoreTests.ClampLimitsPitchDistanceAndFov" methodname="ClampLimitsPitchDistanceAndFov" classname="BabyDance.Tests.CameraScoreTests" runstate="Runnable" seed="498024328" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.000253" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1025" name="CutSwitchesExactlyOnBeatAndHoldsBetween" fullname="BabyDance.Tests.CameraScoreTests.CutSwitchesExactlyOnBeatAndHoldsBetween" methodname="CutSwitchesExactlyOnBeatAndHoldsBetween" classname="BabyDance.Tests.CameraScoreTests" runstate="Runnable" seed="339514225" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.000375" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1028" name="CycleRepeatsFromPhraseAAndSkipsIntro" fullname="BabyDance.Tests.CameraScoreTests.CycleRepeatsFromPhraseAAndSkipsIntro" methodname="CycleRepeatsFromPhraseAAndSkipsIntro" classname="BabyDance.Tests.CameraScoreTests" runstate="Runnable" seed="567453509" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.001231" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1019" name="DistanceIsDerivedFromFrameHeightAndFov" fullname="BabyDance.Tests.CameraScoreTests.DistanceIsDerivedFromFrameHeightAndFov" methodname="DistanceIsDerivedFromFrameHeightAndFov" classname="BabyDance.Tests.CameraScoreTests" runstate="Runnable" seed="1260828241" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.000130" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1026" name="EaseReachesTargetThenCutsToNextCue" fullname="BabyDance.Tests.CameraScoreTests.EaseReachesTargetThenCutsToNextCue" methodname="EaseReachesTargetThenCutsToNextCue" classname="BabyDance.Tests.CameraScoreTests" runstate="Runnable" seed="255039927" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.000143" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1020" name="EveryShotIsSizedForThisCharacter" fullname="BabyDance.Tests.CameraScoreTests.EveryShotIsSizedForThisCharacter" methodname="EveryShotIsSizedForThisCharacter" classname="BabyDance.Tests.CameraScoreTests" runstate="Runnable" seed="291217193" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.003956" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1021" name="HeadShotsFrameTheHeadNotTheWholeBody" fullname="BabyDance.Tests.CameraScoreTests.HeadShotsFrameTheHeadNotTheWholeBody" methodname="HeadShotsFrameTheHeadNotTheWholeBody" classname="BabyDance.Tests.CameraScoreTests" runstate="Runnable" seed="1118780087" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.000185" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1030" name="ImpactInsertLastsEighthBeatOnBarHeads" fullname="BabyDance.Tests.CameraScoreTests.ImpactInsertLastsEighthBeatOnBarHeads" methodname="ImpactInsertLastsEighthBeatOnBarHeads" classname="BabyDance.Tests.CameraScoreTests" runstate="Runnable" seed="867875492" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.000191" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1022" name="LiftAboveGroundKeepsCameraOverTheFloor" fullname="BabyDance.Tests.CameraScoreTests.LiftAboveGroundKeepsCameraOverTheFloor" methodname="LiftAboveGroundKeepsCameraOverTheFloor" classname="BabyDance.Tests.CameraScoreTests" runstate="Runnable" seed="24270986" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.000501" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1029" name="PunchInFiresEveryBeatOnlyInChorus" fullname="BabyDance.Tests.CameraScoreTests.PunchInFiresEveryBeatOnlyInChorus" methodname="PunchInFiresEveryBeatOnlyInChorus" classname="BabyDance.Tests.CameraScoreTests" runstate="Runnable" seed="1323612582" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.000159" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1031" name="ShakeIsDeterministicAndBounded" fullname="BabyDance.Tests.CameraScoreTests.ShakeIsDeterministicAndBounded" methodname="ShakeIsDeterministicAndBounded" classname="BabyDance.Tests.CameraScoreTests" runstate="Runnable" seed="56124625" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.000905" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1033" name="DanceDriverMathTests" fullname="BabyDance.Tests.DanceDriverMathTests" classname="BabyDance.Tests.DanceDriverMathTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.002602" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1036" name="NormalizedTimeAppliesOffsetAndHandlesNegativeBeats" fullname="BabyDance.Tests.DanceDriverMathTests.NormalizedTimeAppliesOffsetAndHandlesNegativeBeats" methodname="NormalizedTimeAppliesOffsetAndHandlesNegativeBeats" classname="BabyDance.Tests.DanceDriverMathTests" runstate="Runnable" seed="1781818767" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.001384" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1035" name="NormalizedTimeWrapsEveryLoop" fullname="BabyDance.Tests.DanceDriverMathTests.NormalizedTimeWrapsEveryLoop" methodname="NormalizedTimeWrapsEveryLoop" classname="BabyDance.Tests.DanceDriverMathTests" runstate="Runnable" seed="1503285896" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.000150" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1034" name="SecondsPerBeatIsClipLengthOverBeats" fullname="BabyDance.Tests.DanceDriverMathTests.SecondsPerBeatIsClipLengthOverBeats" methodname="SecondsPerBeatIsClipLengthOverBeats" classname="BabyDance.Tests.DanceDriverMathTests" runstate="Runnable" seed="1753802871" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.000155" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1037" name="FaceScoreTests" fullname="BabyDance.Tests.FaceScoreTests" classname="BabyDance.Tests.FaceScoreTests" runstate="Runnable" testcasecount="10" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:51Z" duration="2.589263" total="10" passed="10" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1042" name="AtlasRowsAreTopToBottomForEveryFrame" fullname="BabyDance.Tests.FaceScoreTests.AtlasRowsAreTopToBottomForEveryFrame" methodname="AtlasRowsAreTopToBottomForEveryFrame" classname="BabyDance.Tests.FaceScoreTests" runstate="Runnable" seed="1598910588" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.000478" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1039" name="BlinkFiresOncePerPeriodAcrossThousandBeats" fullname="BabyDance.Tests.FaceScoreTests.BlinkFiresOncePerPeriodAcrossThousandBeats" methodname="BlinkFiresOncePerPeriodAcrossThousandBeats" classname="BabyDance.Tests.FaceScoreTests" runstate="Runnable" seed="243588215" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.024967" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[blink starts [-2,1000]=125
+]]></output>
+            </test-case>
+            <test-case id="1038" name="BlinkIntervalsHaveNonzeroVariance" fullname="BabyDance.Tests.FaceScoreTests.BlinkIntervalsHaveNonzeroVariance" methodname="BlinkIntervalsHaveNonzeroVariance" classname="BabyDance.Tests.FaceScoreTests" runstate="Runnable" seed="49970242" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.024164" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[blink interval min=4.2620000000000573 max=11.636999999999944
+]]></output>
+            </test-case>
+            <test-case id="1040" name="EveryBlinkHasPointThreeBeatsOfClosedEyes" fullname="BabyDance.Tests.FaceScoreTests.EveryBlinkHasPointThreeBeatsOfClosedEyes" methodname="EveryBlinkHasPointThreeBeatsOfClosedEyes" classname="BabyDance.Tests.FaceScoreTests" runstate="Runnable" seed="1835776417" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.027389" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1044" name="ExpressionsChangeOnlyOpenEyes" fullname="BabyDance.Tests.FaceScoreTests.ExpressionsChangeOnlyOpenEyes" methodname="ExpressionsChangeOnlyOpenEyes" classname="BabyDance.Tests.FaceScoreTests" runstate="Runnable" seed="2033101876" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:48Z" duration="0.255413" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1045" name="MouthAlwaysStaysInItsThreeFrames" fullname="BabyDance.Tests.FaceScoreTests.MouthAlwaysStaysInItsThreeFrames" methodname="MouthAlwaysStaysInItsThreeFrames" classname="BabyDance.Tests.FaceScoreTests" runstate="Runnable" seed="94822260" result="Passed" start-time="2026-09-05 13:30:48Z" end-time="2026-09-05 13:30:51Z" duration="2.243218" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[mouth frame counts=651159,200000,150842
+]]></output>
+            </test-case>
+            <test-case id="1046" name="MouthUsesExactBeatThresholds" fullname="BabyDance.Tests.FaceScoreTests.MouthUsesExactBeatThresholds" methodname="MouthUsesExactBeatThresholds" classname="BabyDance.Tests.FaceScoreTests" runstate="Runnable" seed="1187785788" result="Passed" start-time="2026-09-05 13:30:51Z" end-time="2026-09-05 13:30:51Z" duration="0.000644" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1047" name="NaturalBlinkCanDelayReopeningAfterSwitch" fullname="BabyDance.Tests.FaceScoreTests.NaturalBlinkCanDelayReopeningAfterSwitch" methodname="NaturalBlinkCanDelayReopeningAfterSwitch" classname="BabyDance.Tests.FaceScoreTests" runstate="Runnable" seed="1399306332" result="Passed" start-time="2026-09-05 13:30:51Z" end-time="2026-09-05 13:30:51Z" duration="0.002130" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1041" name="NegativeBeatsUseFloorAndKeepMouthPhase" fullname="BabyDance.Tests.FaceScoreTests.NegativeBeatsUseFloorAndKeepMouthPhase" methodname="NegativeBeatsUseFloorAndKeepMouthPhase" classname="BabyDance.Tests.FaceScoreTests" runstate="Runnable" seed="1172099996" result="Passed" start-time="2026-09-05 13:30:51Z" end-time="2026-09-05 13:30:51Z" duration="0.007918" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1043" name="SwitchingForcesSharedBlinkImmediately" fullname="BabyDance.Tests.FaceScoreTests.SwitchingForcesSharedBlinkImmediately" methodname="SwitchingForcesSharedBlinkImmediately" classname="BabyDance.Tests.FaceScoreTests" runstate="Runnable" seed="1136783342" result="Passed" start-time="2026-09-05 13:30:51Z" end-time="2026-09-05 13:30:51Z" duration="0.000349" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[Saving results to: /Users/fukasedaichi/Library/Application Support/DefaultCompany/babyDance/TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

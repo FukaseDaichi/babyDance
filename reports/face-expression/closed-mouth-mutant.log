@@ -1,0 +1,12 @@
+ATLAS FaceEyes 512x256 frames=8 core=120 padding=4 transparent_feature_px=0 padding_mismatches=0
+Installed 2 packages in 41ms
+Traceback (most recent call last):
+  File "/Users/fukasedaichi/git/babyDance/Logs/face-validation/closed-mouth-mutant.py", line 116, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/Users/fukasedaichi/git/babyDance/Logs/face-validation/closed-mouth-mutant.py", line 112, in main
+    assemble(name,frames,cols,rows,mask,args.output)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/fukasedaichi/git/babyDance/Logs/face-validation/closed-mouth-mutant.py", line 102, in assemble
+    raise RuntimeError(f'Closed mouth was not reduced to a line: {dark}')
+RuntimeError: Closed mouth was not reduced to a line: [1410, 1248, 3556]

@@ -1,0 +1,49 @@
+{
+  "angles": [
+    {
+      "angle": 0,
+      "baseline_pupil_px": 15529,
+      "remaining_pupil_px": 545,
+      "silhouette_px": 94663,
+      "interior_px": 87468,
+      "interior_non_decal_px": 0,
+      "hair_px_upper_bound": 0
+    },
+    {
+      "angle": -30,
+      "baseline_pupil_px": 13432,
+      "remaining_pupil_px": 536,
+      "silhouette_px": 81770,
+      "interior_px": 74814,
+      "interior_non_decal_px": 0,
+      "hair_px_upper_bound": 0
+    },
+    {
+      "angle": 30,
+      "baseline_pupil_px": 13404,
+      "remaining_pupil_px": 371,
+      "silhouette_px": 82129,
+      "interior_px": 75195,
+      "interior_non_decal_px": 0,
+      "hair_px_upper_bound": 0
+    },
+    {
+      "angle": -60,
+      "baseline_pupil_px": 7239,
+      "remaining_pupil_px": 282,
+      "silhouette_px": 47242,
+      "interior_px": 41727,
+      "interior_non_decal_px": 0,
+      "hair_px_upper_bound": 0
+    },
+    {
+      "angle": 60,
+      "baseline_pupil_px": 7628,
+      "remaining_pupil_px": 104,
+      "silhouette_px": 47779,
+      "interior_px": 42101,
+      "interior_non_decal_px": 8,
+      "hair_px_upper_bound": 8
+    }
+  ]
+}

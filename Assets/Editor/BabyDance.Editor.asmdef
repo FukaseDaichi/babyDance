@@ -3,7 +3,8 @@
     "rootNamespace": "BabyDance.Editor",
     "references": [
         "BabyDance",
-        "Unity.RenderPipelines.Universal.Runtime"
+        "Unity.RenderPipelines.Universal.Runtime",
+        "Unity.RenderPipelines.Universal.Editor"
     ],
     "includePlatforms": [
         "Editor"

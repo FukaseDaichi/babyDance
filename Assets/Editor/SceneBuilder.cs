@@ -50,6 +50,9 @@ namespace BabyDance.Editor
             character.GetComponent<Animator>().runtimeAnimatorController = controller;
             var driver = character.AddComponent<DanceDriver>();
             driver.dances = dances;
+            var faceDirector = character.AddComponent<FaceDirector>();
+            faceDirector.Expression = dances[0].expression;
+            faceDirector.Tick(0.0); // 生成時にもレンダラ名の契約を検査する。
 
             var director = cameraGo.AddComponent<ShotDirector>();
             director.dancer = character.GetComponent<Animator>();
@@ -59,6 +62,7 @@ namespace BabyDance.Editor
             player.audio = playerGo.GetComponent<AudioLoader>();
             player.driver = driver;
             player.director = director;
+            player.faceDirector = faceDirector;
             playerGo.GetComponent<DanceUi>().player = player;
 
             if (!EditorSceneManager.SaveScene(scene, ScenePath))

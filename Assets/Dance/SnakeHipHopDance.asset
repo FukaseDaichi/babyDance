@@ -16,3 +16,4 @@ MonoBehaviour:
   stateName: Base Layer.SnakeHipHopDance
   beatsPerLoop: 31
   beatOffset: 0
+  expression: 2

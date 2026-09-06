@@ -16,3 +16,4 @@ MonoBehaviour:
   stateName: Base Layer.TutHipHopDance
   beatsPerLoop: 34
   beatOffset: 0
+  expression: 0

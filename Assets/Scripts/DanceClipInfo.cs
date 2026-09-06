@@ -10,5 +10,6 @@ namespace BabyDance
         public string stateName;
         [Min(1)] public int beatsPerLoop = 8;
         public float beatOffset;
+        [Range(0, 3)] public int expression;
     }
 }

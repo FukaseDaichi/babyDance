@@ -9,6 +9,16 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: BabyBunny
     second: {fileID: 2100000, guid: e49ade3cb4ad6497385de03e0bffd86c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: FaceEyes
+    second: {fileID: 2100000, guid: 4691b3b7a800346f28fc2187a3c0c4d4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: FaceMouth
+    second: {fileID: 2100000, guid: 851df556760524357ab9e7d3f85af81e, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

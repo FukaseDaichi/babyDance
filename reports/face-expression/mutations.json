@@ -1,0 +1,102 @@
+[
+  {
+    "mutation": "jitter",
+    "old": "Jitter = 4.0",
+    "new": "Jitter = 0.0",
+    "target": "BlinkIntervalsHaveNonzeroVariance",
+    "failed_tests": [
+      "BlinkFiresOncePerPeriodAcrossThousandBeats",
+      "BlinkIntervalsHaveNonzeroVariance",
+      "EveryBlinkHasPointThreeBeatsOfClosedEyes",
+      "NaturalBlinkCanDelayReopeningAfterSwitch",
+      "NegativeBeatsUseFloorAndKeepMouthPhase"
+    ],
+    "restored_passed": 40
+  },
+  {
+    "mutation": "firing",
+    "old": "if (phase >= 0 && phase < BlinkLength)",
+    "new": "if (false)",
+    "target": "BlinkFiresOncePerPeriodAcrossThousandBeats",
+    "failed_tests": [
+      "BlinkFiresOncePerPeriodAcrossThousandBeats",
+      "BlinkIntervalsHaveNonzeroVariance",
+      "EveryBlinkHasPointThreeBeatsOfClosedEyes",
+      "ExpressionsChangeOnlyOpenEyes",
+      "NaturalBlinkCanDelayReopeningAfterSwitch",
+      "NegativeBeatsUseFloorAndKeepMouthPhase",
+      "SwitchingForcesSharedBlinkImmediately"
+    ],
+    "restored_passed": 40
+  },
+  {
+    "mutation": "closed-width",
+    "old": "Closed = 0.3",
+    "new": "Closed = 0.2",
+    "target": "EveryBlinkHasPointThreeBeatsOfClosedEyes",
+    "failed_tests": [
+      "EveryBlinkHasPointThreeBeatsOfClosedEyes",
+      "SwitchingForcesSharedBlinkImmediately"
+    ],
+    "restored_passed": 40
+  },
+  {
+    "mutation": "negative-floor",
+    "old": "(long)Math.Floor(beat / Interval)",
+    "new": "(long)(beat / Interval)",
+    "target": "NegativeBeatsUseFloorAndKeepMouthPhase",
+    "failed_tests": [
+      "NegativeBeatsUseFloorAndKeepMouthPhase"
+    ],
+    "restored_passed": 40
+  },
+  {
+    "mutation": "atlas-row",
+    "old": "1.0 - (double)(row + 1) / rows",
+    "new": "(double)row / rows",
+    "target": "AtlasRowsAreTopToBottomForEveryFrame",
+    "failed_tests": [
+      "AtlasRowsAreTopToBottomForEveryFrame"
+    ],
+    "restored_passed": 40
+  },
+  {
+    "mutation": "forced-blink",
+    "old": "phase = beat - switchBeat;",
+    "new": "phase = phase + 0;",
+    "target": "SwitchingForcesSharedBlinkImmediately",
+    "failed_tests": [
+      "NaturalBlinkCanDelayReopeningAfterSwitch",
+      "SwitchingForcesSharedBlinkImmediately"
+    ],
+    "restored_passed": 40
+  },
+  {
+    "mutation": "composition",
+    "old": "return new FacePose(eye, mouth);",
+    "new": "return new FacePose(expression, mouth);",
+    "target": "ExpressionsChangeOnlyOpenEyes",
+    "failed_tests": [
+      "BlinkFiresOncePerPeriodAcrossThousandBeats",
+      "BlinkIntervalsHaveNonzeroVariance",
+      "EveryBlinkHasPointThreeBeatsOfClosedEyes",
+      "ExpressionsChangeOnlyOpenEyes",
+      "NaturalBlinkCanDelayReopeningAfterSwitch",
+      "NegativeBeatsUseFloorAndKeepMouthPhase",
+      "SwitchingForcesSharedBlinkImmediately"
+    ],
+    "restored_passed": 40
+  },
+  {
+    "mutation": "mouth-range",
+    "old": "f < 0.15 ? 2 : f < 0.35 ? 1 : 0",
+    "new": "f < 0.15 ? 2 : f < 0.35 ? 1 : 3",
+    "target": "MouthAlwaysStaysInItsThreeFrames",
+    "failed_tests": [
+      "MouthAlwaysStaysInItsThreeFrames",
+      "MouthUsesExactBeatThresholds",
+      "NegativeBeatsUseFloorAndKeepMouthPhase"
+    ],
+    "restored_passed": 40
+  }
+]

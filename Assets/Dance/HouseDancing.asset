@@ -16,3 +16,4 @@ MonoBehaviour:
   stateName: Base Layer.HouseDancing
   beatsPerLoop: 52
   beatOffset: 0
+  expression: 1

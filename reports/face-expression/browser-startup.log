@@ -1,0 +1,56 @@
+[log] You can reduce startup time if you configure your web server to add "Content-Encoding: br" response header when serving "Build/WebGL.framework.js.unityweb" file.
+[log] You can reduce startup time if you configure your web server to add "Content-Encoding: br" response header when serving "Build/WebGL.wasm.unityweb" file.
+[log] You can reduce startup time if you configure your web server to add "Content-Encoding: br" response header when serving "Build/WebGL.data.unityweb" file.
+[log] [UnityCache] 'http://127.0.0.1:8765/Build/WebGL.data.unityweb' successfully downloaded and stored in the browser cache
+[log] [UnityMemory] Configuration Parameters - Can be set up in boot.config
+[log] "memorysetup-bucket-allocator-granularity=16"
+[log] "memorysetup-bucket-allocator-bucket-count=8"
+[log] "memorysetup-bucket-allocator-block-size=4194304"
+[log] "memorysetup-bucket-allocator-block-count=1"
+[log] "memorysetup-main-allocator-block-size=16777216"
+[log] "memorysetup-thread-allocator-block-size=16777216"
+[log] "memorysetup-main-allocator-mimalloc-enabled=0"
+[log] "memorysetup-gfx-main-allocator-block-size=16777216"
+[log] "memorysetup-gfx-thread-allocator-block-size=16777216"
+[log] "memorysetup-cache-allocator-block-size=4194304"
+[log] "memorysetup-typetree-allocator-block-size=2097152"
+[log] "memorysetup-profiler-bucket-allocator-granularity=16"
+[log] "memorysetup-profiler-bucket-allocator-bucket-count=8"
+[log] "memorysetup-profiler-bucket-allocator-block-size=4194304"
+[log] "memorysetup-profiler-bucket-allocator-block-count=1"
+[log] "memorysetup-profiler-allocator-block-size=16777216"
+[log] "memorysetup-profiler-editor-allocator-block-size=1048576"
+[log] "memorysetup-temp-allocator-size-main=4194304"
+[log] "memorysetup-job-temp-allocator-block-size=2097152"
+[log] "memorysetup-job-temp-allocator-block-size-background=1048576"
+[log] "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+[log] "memorysetup-temp-allocator-size-background-worker=32768"
+[log] "memorysetup-allocator-temp-initial-block-size-main=262144"
+[log] "memorysetup-allocator-temp-initial-block-size-worker=262144"
+[log] "memorysetup-temp-allocator-size-audio-worker=65536"
+[log] "memorysetup-remapper-allocator-initial-capacity=32768"
+[log] CodeReloadManager initialized
+[log] Input System module state changed to: Initialized.
+[log] [Physics::Module] Initialized fallback backend.
+[log] [Physics::Module] Id: 0xdecafbad
+[log] Loading player data from data.unity3d
+[log] Initialize engine version: 6000.5.10f1 (3bd4f66ad299)
+[log] [Subsystems] Discovering subsystems at path UnitySubsystems
+[log] Creating WebGL 2.0 context.
+[log] Renderer: WebKit WebGL
+[log] Vendor:   WebKit
+[log] Version:  OpenGL ES 3.0 (WebGL 2.0 (OpenGL ES 3.0 Chromium))
+[log] GLES:     3
+[log] EXT_clip_control EXT_color_buffer_float EXT_color_buffer_half_float EXT_conservative_depth EXT_depth_clamp EXT_disjoint_timer_query_webgl2 EXT_float_blend EXT_polygon_offset_clamp EXT_texture_compression_bptc EXT_texture_compression_rgtc EXT_texture_filter_anisotropic EXT_texture_norm16 KHR_parallel_shader_compile NV_shader_noperspective_interpolation OES_texture_float_linear WEBGL_blend_func_extended WEBGL_clip_cull_distance WEBGL_compressed_texture_astc WEBGL_compressed_texture_etc WEBGL_compressed_texture_etc1 WEBGL_compressed_texture_s3tc WEBGL_compressed_texture_s3tc_srgb WEBGL_debug_renderer_info WEBGL_debug_shaders WEBGL_lose_context WEBGL_multi_draw WEBGL_polygon_mode GL_EXT_clip_control GL_EXT_color_buffer_float GL_EXT_color_buffer_half_float GL_EXT_conservative_depth GL_EXT_depth_clamp GL_EXT_disjoint_timer_query_webgl2 GL_EXT_float_blend GL_EXT_polygon_offset_clamp GL_EXT_texture_compression_bptc GL_EXT_texture_compression_rgtc GL_EXT_texture_filter_anisotropic GL_EXT_texture_norm16 GL_KHR_parall
+[log] el_shader_compile GL_NV_shader_noperspective_interpolation GL_OES_texture_float_linear GL_WEBGL_blend_func_extended GL_WEBGL_clip_cull_distance GL_WEBGL_compressed_texture_astc GL_WEBGL_compressed_texture_etc GL_WEBGL_compressed_texture_etc1 GL_WEBGL_compressed_texture_s3tc GL_WEBGL_compressed_texture_s3tc_srgb GL_WEBGL_debug_renderer_info GL_WEBGL_debug_shaders GL_WEBGL_lose_context GL_WEBGL_multi_draw GL_WEBGL_polygon_mode
+[log] OPENGL LOG: Creating OpenGL ES 3.0 graphics device ; Context level  <OpenGL ES 3.0> ; Context handle 1
+[log] [Physics::Module] Selected backend.
+[log] [Physics::Module] Name: PhysX
+[log] [Physics::Module] Id: 0xf2b8ea05
+[log] [Physics::Module] SDK Version: 4.1.2
+[log] [Physics::Module] Integration Version: 1.0.0
+[log] [Physics::Module] Threading Mode: Single-Threaded
+[log] Input System initialize...
+[log] UnloadTime: 1.900001 ms
+[log] [BabyDance] FaceDirector ready: FaceEyes=1 FaceMouth=1
+[warn] Shader 'Hidden/Universal Render Pipeline/Edge Adaptive Spatial Upsampling' is not supported (in 'Blit FSR Upscaling'). PostProcessing render passes will not execute.

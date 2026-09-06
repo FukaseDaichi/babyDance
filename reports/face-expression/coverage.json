@@ -1,0 +1,55 @@
+{
+  "angles": [
+    {
+      "angle": 0,
+      "baseline_pupil_px": 15529,
+      "remaining_pupil_px": 0,
+      "silhouette_px": 116614,
+      "interior_px": 108912,
+      "interior_non_decal_px": 0,
+      "hair_px_upper_bound": 0
+    },
+    {
+      "angle": -30,
+      "baseline_pupil_px": 13432,
+      "remaining_pupil_px": 0,
+      "silhouette_px": 100223,
+      "interior_px": 92883,
+      "interior_non_decal_px": 0,
+      "hair_px_upper_bound": 0
+    },
+    {
+      "angle": 30,
+      "baseline_pupil_px": 13404,
+      "remaining_pupil_px": 0,
+      "silhouette_px": 101624,
+      "interior_px": 94153,
+      "interior_non_decal_px": 0,
+      "hair_px_upper_bound": 0
+    },
+    {
+      "angle": -60,
+      "baseline_pupil_px": 7239,
+      "remaining_pupil_px": 0,
+      "silhouette_px": 57957,
+      "interior_px": 52204,
+      "interior_non_decal_px": 0,
+      "hair_px_upper_bound": 0
+    },
+    {
+      "angle": 60,
+      "baseline_pupil_px": 7628,
+      "remaining_pupil_px": 0,
+      "silhouette_px": 59586,
+      "interior_px": 53532,
+      "interior_non_decal_px": 0,
+      "hair_px_upper_bound": 0
+    }
+  ],
+  "rig": {
+    "rows": 220,
+    "present_rows": 112,
+    "max_abs_delta": 0.0,
+    "differences": []
+  }
+}

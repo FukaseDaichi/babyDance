@@ -1,0 +1,51 @@
+{
+  "FaceEyes": {
+    "feature_boxes": [
+      [
+        4,
+        28,
+        40,
+        104
+      ],
+      [
+        87,
+        28,
+        122,
+        104
+      ]
+    ],
+    "baked_frame": 0,
+    "bake_derived_frames": [],
+    "placeholder_frames": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "reserved_frames": [
+      6,
+      7
+    ]
+  },
+  "FaceMouth": {
+    "feature_boxes": [
+      [
+        29,
+        44,
+        97,
+        109
+      ]
+    ],
+    "baked_frame": null,
+    "bake_derived_frames": [
+      0
+    ],
+    "placeholder_frames": [
+      0,
+      1,
+      2
+    ],
+    "reserved_frames": []
+  }
+}

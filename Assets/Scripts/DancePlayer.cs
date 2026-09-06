@@ -9,9 +9,11 @@ namespace BabyDance
         public AudioLoader audio;
         public DanceDriver driver;
         public ShotDirector director;
+        public FaceDirector faceDirector;
         [Range(60f, 200f)] public float initialBpm = 120f;
 
         private BeatClock _clock;
+        private bool _hasDance;
 
         public event Action Changed;
         public event Action<string> Message;
@@ -43,6 +45,7 @@ namespace BabyDance
             if (!_clock.IsRunning)
             {
                 director.Tick(0.0);
+                faceDirector.Tick(0.0);
                 return;
             }
             if (!audio.IsPlaying)
@@ -54,6 +57,7 @@ namespace BabyDance
             var beat = _clock.BeatAt(AudioSettings.dspTime);
             driver.Tick(beat);
             director.Tick(beat);
+            faceDirector.Tick(beat);
         }
 
         public void Open() => audio.OpenFile();
@@ -72,8 +76,12 @@ namespace BabyDance
 
         public void SelectDance(int index)
         {
+            var beat = _clock.BeatAt(AudioSettings.dspTime);
+            driver.SetDance(index, beat);
+            faceDirector.Expression = driver.dances[index].expression;
+            faceDirector.SwitchBeat = _hasDance ? beat : double.NegativeInfinity;
+            _hasDance = true;
             CurrentDance = index;
-            driver.SetDance(index, _clock.BeatAt(AudioSettings.dspTime));
             Changed?.Invoke();
         }
 
@@ -87,6 +95,7 @@ namespace BabyDance
         {
             var start = audio.Play();
             _clock.Start(start);
+            faceDirector.SwitchBeat = double.NegativeInfinity;
             driver.SetDance(CurrentDance, _clock.BeatAt(AudioSettings.dspTime));
             Changed?.Invoke();
         }

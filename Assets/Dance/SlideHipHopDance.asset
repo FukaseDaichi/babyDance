@@ -16,3 +16,4 @@ MonoBehaviour:
   stateName: Base Layer.SlideHipHopDance
   beatsPerLoop: 35
   beatOffset: 0
+  expression: 3
